@@ -1,0 +1,10 @@
+# Auto-generated output
+_output/
+
+# PyDoit database
+.doit.db
+.doit.db.db
+
+# Python
+__pycache__/
+*.py[cod]

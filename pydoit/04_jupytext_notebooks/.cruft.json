@@ -1,0 +1,42 @@
+{
+  "template": "https://github.com/backofficedev/cookiecutter_chartbook",
+  "commit": "3c26481a550f3208968a87a2bd411dd30d0ac891",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "FRED Example Charts",
+      "project_slug": "fred_charts",
+      "project_description": "Examples of charts using data from FRED",
+      "author_name": "Jeremy Bejarano",
+      "author_email": "your.email@example.com",
+      "python_version": "3.12",
+      "environment_manager": "pip",
+      "include_latex_reports": false,
+      "include_jupyter_notebooks": true,
+      "include_r_scripts": false,
+      "include_stata_scripts": false,
+      "include_chartbook": true,
+      "include_github_actions": false,
+      "include_fred": true,
+      "include_fed_yield_curve": false,
+      "include_ofr_api": false,
+      "include_bloomberg": false,
+      "include_crsp_stock": false,
+      "include_crsp_compustat": false,
+      "_copy_without_render": [
+        "*.bst",
+        "*.sty",
+        "*.eps",
+        "*.ipe",
+        "*.png",
+        "*.pdf",
+        "*.tex",
+        "*.bib",
+        ".github/workflows/*.yml"
+      ],
+      "_template": "https://github.com/backofficedev/cookiecutter_chartbook",
+      "_commit": "3c26481a550f3208968a87a2bd411dd30d0ac891"
+    }
+  },
+  "directory": null
+}

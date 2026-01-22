@@ -1,0 +1,34 @@
+# PyDoit database
+.doit.db
+.doit.db.db
+.doit-db.sqlite
+
+# Auto-generated directories
+_data/
+_output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv/
+env/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

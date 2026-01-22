@@ -1,0 +1,44 @@
+# Dependencies for Example Charts from FRED
+# Install with: pip install -r requirements.txt
+
+# Core dependencies (always included)
+colorama
+doit==0.36.0
+fabric==3.2.2
+holidays
+ipython
+matplotlib==3.9.2
+numpy==1.26.4
+openpyxl==3.1.5
+pandas-datareader==0.10.0
+pandas-market-calendars==4.4.1
+pandas==2.2.3
+paramiko==3.5.0
+plotly==5.24.1
+polars==1.9.0
+pyarrow
+pytest==8.3.3
+python-decouple==3.8
+python-dotenv==1.0.1
+pyxlsb==1.0.10
+requests==2.32.3
+ruff
+black==24.8.0
+scikit-learn==1.5.2
+scipy==1.12.0
+seaborn==0.13.2
+statsmodels==0.14.4
+xlrd==2.0.1
+xlwings==0.33.3
+zstandard==0.23.0
+linearmodels==6.1
+
+# Jupyter dependencies
+jupyter
+jupyterlab
+jupytext
+notebook
+
+
+# Documentation/notebook rendering dependencies
+chartbook[all]>=0.0.3

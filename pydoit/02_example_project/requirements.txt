@@ -1,0 +1,8 @@
+# 02_example_project requirements
+# Simple Python scripts workflow with FRED data
+
+doit
+pandas
+pandas-datareader
+matplotlib
+pyarrow  # For parquet file support

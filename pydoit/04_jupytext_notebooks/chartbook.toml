@@ -1,0 +1,81 @@
+[config]
+type = "pipeline"
+chartbook_format_version = "0.0.2"
+
+[site]
+title = "My Example Charts"
+author = "Jeremy"
+copyright = "2025"
+logo_path = ""
+favicon_path = ""
+
+[pipeline]
+id = "EX"
+pipeline_name = "My Example Charts"
+pipeline_description = "Example Charts from FRED"
+lead_pipeline_developer = "Jeremy"
+contributors = ["Jeremy"]
+build_commands = "doit"
+os_compatibility = ["Windows", "Linux", "macOS"]
+git_repo_URL = ""
+README_file_path = "./README.md"
+
+[notebooks]
+
+
+[notebooks.01_example_notebook_interactive]
+notebook_name = "GDP Over Time"
+notebook_description = "Interactive Plotly chart showing US GDP over time."
+notebook_path = "_output/01_example_notebook_interactive_ipynb.ipynb"
+
+
+[notebooks.02_example_with_dependencies]
+notebook_name = "Unemployment Rate Over Time"
+notebook_description = "Interactive Plotly chart showing US unemployment rate over time."
+notebook_path = "_output/02_example_with_dependencies_ipynb.ipynb"
+
+
+
+
+[dataframes]
+
+[dataframes.fred]
+dataframe_name = "FRED Economic Data"
+short_description_df = "Basic economic time series from FRED including GDP, Unemployment Rate, CPI, and Federal Funds Rate."
+data_sources = ["FRED"]
+data_providers = ["Federal Reserve Bank of St. Louis"]
+links_to_data_providers = ["https://fred.stlouisfed.org/"]
+topic_tags = ["Macroeconomic", "GDP", "Unemployment"]
+how_is_pulled = "Web API via Python"
+path_to_parquet_data = "./_data/fred.parquet"
+date_col = "date"
+dataframe_docs_path = "./docs_src/dataframes/fred.md"
+
+
+[charts]
+
+[charts.gdp_chart]
+chart_name = "GDP Over Time"
+short_description_chart = "Interactive line chart showing US Gross Domestic Product over time."
+dataframe_id = "fred"
+topic_tags = ["Macroeconomic", "GDP"]
+data_frequency = "Quarterly"
+observation_period = "Quarter"
+lag_in_data_release = "One month"
+data_release_timing = "Quarterly"
+units = "Billions of Dollars"
+path_to_html_chart = "./_output/01_gdp_chart.html"
+chart_docs_path = "./docs_src/charts/gdp_chart.md"
+
+[charts.unemployment_chart]
+chart_name = "Unemployment Rate Over Time"
+short_description_chart = "Interactive line chart showing US Unemployment Rate over time."
+dataframe_id = "fred"
+topic_tags = ["Macroeconomic", "Unemployment"]
+data_frequency = "Monthly"
+observation_period = "Month"
+lag_in_data_release = "One week"
+data_release_timing = "Monthly"
+units = "Percent"
+path_to_html_chart = "./_output/02_unemployment_chart.html"
+chart_docs_path = "./docs_src/charts/unemployment_chart.md"

@@ -1,0 +1,29 @@
+# Auto-generated directories
+_data/
+_output/
+
+# PyDoit database
+.doit.db
+.doit.db.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Environment
+.env
+.venv/
+env/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
