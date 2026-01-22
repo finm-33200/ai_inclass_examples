@@ -1,0 +1,41 @@
+APPLE INC. Q4 FISCAL YEAR 2024 EARNINGS CALL
+October 31, 2024
+
+PARTICIPANTS:
+Tim Cook - CEO
+Luca Maestri - CFO
+
+TIM COOK: Good afternoon, everyone. We're pleased to report another strong quarter for Apple. Revenue for the September quarter was $94.9 billion, up 6% year over year. This was an all-time record for the September quarter.
+
+Our Services business continues to show remarkable strength, reaching $25 billion in revenue, up 12% year over year and an all-time record. We now have over 1 billion paid subscriptions across our services ecosystem.
+
+iPhone revenue came in at $46.2 billion, which was slightly below our expectations. We saw some softness in China where we continue to face competitive pressure. However, we're encouraged by the strong reception of iPhone 16 and its new AI capabilities.
+
+Mac revenue was $7.7 billion, up 2% year over year, driven by the M3 lineup. iPad revenue was $7 billion, up 8% thanks to the new iPad Pro models.
+
+Looking ahead, we remain optimistic about the holiday quarter. We expect revenue growth in the low-to-mid single digits. Our Apple Intelligence features are rolling out and generating significant customer interest.
+
+LUCA MAESTRI: Thank you, Tim. I'll add some color on margins and capital allocation.
+
+Gross margin was 46.2%, up 90 basis points from last year. Operating expenses were $14.3 billion, in line with our guidance.
+
+We generated $27 billion in operating cash flow and returned over $29 billion to shareholders through dividends and share repurchases. Our net cash position is now $51 billion.
+
+For the December quarter, we expect:
+- Revenue growth of 3-5% year over year
+- Gross margin between 46% and 47%
+- OpEx between $15.3 and $15.5 billion
+
+Q&A HIGHLIGHTS:
+
+On China: "We're seeing sequential improvement in China. The iPhone 16 launch has been well-received, and we're optimistic about the holiday season." - Tim Cook
+
+On AI Strategy: "Apple Intelligence represents a new chapter for Apple. We believe our approach of on-device processing combined with Private Cloud Compute provides the best privacy protection in the industry." - Tim Cook
+
+On Services Growth: "We continue to see strong engagement across all our services. The App Store, iCloud, and Apple TV+ all showed double-digit growth." - Luca Maestri
+
+Risks Mentioned:
+- Continued foreign exchange headwinds
+- Competitive pressure in China smartphone market
+- Regulatory uncertainty in EU regarding App Store
+- Supply chain constraints in emerging AI chip components

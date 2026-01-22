@@ -1,0 +1,8 @@
+# OpenAI SDK
+openai
+
+# Type-safe schemas
+pydantic
+
+# Environment variable handling
+python-decouple

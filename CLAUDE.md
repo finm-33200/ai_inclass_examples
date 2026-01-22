@@ -36,6 +36,12 @@ ai_inclass_examples/
 - Each example should be self-contained and runnable independently
 - Typical example contains 1-3 scripts working together
 
+## README Guidelines
+
+**Topic-level README** (e.g., `basic_llm_api/README.md`): Overview, rationale for progression, table of subdirectories.
+
+**Example-level README** (e.g., `01_gemini_hello/README.md`): What is learned, key concepts, setup steps, how to run, "Try it" exercises.
+
 ## Environment Variables
 
 Copy `.env.example` to `.env` at repo root and fill in values. Examples load from there:

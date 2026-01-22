@@ -1,0 +1,5 @@
+# Gemini API client (new SDK)
+google-genai
+
+# Environment variable handling
+python-decouple
