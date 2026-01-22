@@ -1,0 +1,207 @@
+---
+description:
+globs: *_ipynb.py
+alwaysApply: false
+---
+When you write a .py file with the intention of using jupytext to convert it to a .ipynb file, you should use the percent format. For information about jupytext, see here: https://jupytext.readthedocs.io/
+
+## Key Jupytext Format Rules
+
+1. **YAML Header**: Every notebook must start with a YAML header (between `# ---` markers) containing jupytext and kernel metadata
+2. **Markdown Cells**: Use `# %% [markdown]` followed by lines starting with `#` (with a space after)
+3. **Code Cells**: Use `# %%` for regular code cells
+4. **Multi-line Markdown**: In markdown cells, each line of content must start with `#` followed by a space
+5. **Blank Lines**: Use a single `#` on its own line for blank lines within markdown cells
+6. **No Triple Quotes**: Unlike the old ipynb-py-convert format, jupytext does NOT use `"""` for markdown
+
+## Comparison: Old vs New Format
+
+**OLD Format (ipynb-py-convert) - DO NOT USE:**
+```python
+# %%
+"""
+# My Title
+
+This is my content.
+"""
+```
+
+**NEW Format (jupytext) - USE THIS:**
+```python
+# %% [markdown]
+# # My Title
+#
+# This is my content.
+```
+
+Here's an example of a .py file in jupytext's percent format that correctly transforms into a .ipynb file:
+
+```
+# ---
+# jupyter:
+#   jupytext:
+#     text_representation:
+#       extension: .py
+#       format_name: percent
+#       format_version: '1.3'
+#       jupytext_version: 1.18.1
+#   kernelspec:
+#     display_name: Python 3
+#     language: python
+#     name: python3
+# ---
+
+# %% [markdown]
+# # 01. GDP Over Time
+#
+# This notebook visualizes US Gross Domestic Product (GDP) over time using
+# interactive Plotly charts. The data is pulled from FRED (Federal Reserve
+# Economic Data).
+
+# %%
+from pathlib import Path
+
+import plotly.express as px
+import pull_fred
+from settings import config
+
+OUTPUT_DIR = Path(config("OUTPUT_DIR"))
+
+# %%
+# Load the FRED data
+df = pull_fred.load_fred()
+df
+
+# %%
+# Create GDP chart
+gdp_df = df[["GDP"]].dropna().reset_index()
+gdp_df.columns = ["Date", "GDP"]
+
+fig = px.line(
+    gdp_df,
+    x="Date",
+    y="GDP",
+    title="US Gross Domestic Product (GDP)",
+    labels={"GDP": "GDP (Billions of Dollars)", "Date": "Date"},
+)
+
+fig.update_layout(
+    hovermode="x unified",
+    template="plotly_white",
+)
+
+# Display the chart
+fig
+
+# %%
+# Save the chart as HTML
+chart_path = OUTPUT_DIR / "01_gdp_chart.html"
+fig.write_html(chart_path)
+print(f"Chart saved to: {chart_path}")
+
+# %%
+```
+
+
+- **Narrative Cells (Markdown)**
+  - Use `# %% [markdown]` at the start of each markdown cell.
+  - Each line of markdown content MUST be prefixed with `#` followed by a space.
+  - Use a single `#` on its own line for blank lines within the markdown cell.
+  - Leave a blank line after the markdown cell before the next `# %%` delimiter.
+
+  Example of a multi-paragraph markdown cell:
+  ```python
+  # %% [markdown]
+  # ## Scenario 1: Large Trade Split into 3 Legs
+  #
+  # Dealers sometimes report a single large trade split into legs.
+  # This is done to manage risk across different counterparties.
+  #
+  # Here's how we handle this:
+  # 1. Identify split trades
+  # 2. Aggregate them back together
+  # 3. Calculate the total volume
+
+  # %%
+  def scenario_example() -> pl.DataFrame:
+      # build DataFrame
+      return df
+  df = scenario_example()
+  df
+  ```
+
+  **IMPORTANT**: Notice how blank lines within markdown are represented by a single `#` character.
+
+- **Code Cells**
+  - Use a plain `# %%` at the start of each code cell (for definitions, imports, execution).
+  - All Python definitions, imports, and execution logic go below this delimiter.
+  - To render DataFrame or variables as notebook output, end the cell with the variable name on its own line.
+
+  Example:
+  ```python
+  # %%
+  def scenario_example() -> pl.DataFrame:
+      # build DataFrame
+      return df
+  df = scenario_example()
+  df
+  ```
+
+- **No Defensive Programming**
+
+No more checks for empty DataFrames or file existence - assume the data is available
+
+
+- **DataFrames as last line of cells**: Each cell that displays data should have the DataFrame expression as the last line, which will render nicely in Jupyter
+
+Remove print statements to ensure proper DataFrame rendering in Jupyter
+
+
+- **Use .glimpse() for wide DataFrames**: Use the `.glimpse()` method available to Polars Dataframes to display dataframes that have many columns, since this will use a vertical display
+
+- **No sys.path manipulation**: Do NOT use `sys.path.insert(0, str(Path(__file__).parent))` or similar path manipulation in notebooks. The `__file__` variable is unavailable when these files are converted to .ipynb and run in Jupyter. Notebooks should rely on proper package installation and PYTHONPATH configuration instead.
+
+## Build System Integration (dodo.py)
+
+Notebooks are integrated into the PyDoit build system via `dodo.py`. Here's how the workflow works:
+
+1. **Notebook Registration**: Add your notebook to the `notebook_tasks` dictionary in [dodo.py](dodo.py):
+   ```python
+   notebook_tasks = {
+       "01_price_yield_validity_ipynb": {
+           "path": "./src/01_price_yield_validity_ipynb.py",
+           "file_dep": ["./src/load_collateral_price_yield.py"],
+           "targets": [],
+       },
+       # Add your notebook here...
+   }
+   ```
+
+2. **Build Execution**: When you run `doit run_notebooks`, the following happens for each notebook:
+   - Converts `.py` file to `.ipynb` using `jupytext --to notebook`
+   - Executes the notebook using `jupyter nbconvert --execute`
+   - Converts to HTML for viewing
+   - Moves the executed `.ipynb` to `OUTPUT_DIR/_notebook_build/`
+   - Places the HTML version in `OUTPUT_DIR/`
+
+3. **Dependencies**:
+   - **file_dep**: List Python modules your notebook imports. The notebook will re-run if these change.
+   - **targets**: List output files (plots, tables, etc.) your notebook produces. This helps PyDoit track what gets generated.
+
+4. **Example Task Configuration**:
+   ```python
+   "02_inflation_analysis_ipynb": {
+       "path": "./src/02_inflation_analysis_ipynb.py",
+       "file_dep": ["./src/pull_fred.py"],
+       "targets": [
+           OUTPUT_DIR / "02_inflation_chart.html",
+       ],
+   }
+   ```
+
+5. **Naming Convention**: Notebook files MUST end with `_ipynb.py` to work with the build system and trigger this rule.
+
+6. **Running Notebooks**:
+   - Run all notebooks: `doit run_notebooks`
+   - Run specific notebook: `doit run_notebooks:01_price_yield_validity_ipynb`
+   - View HTML output in `OUTPUT_DIR/*.html`
