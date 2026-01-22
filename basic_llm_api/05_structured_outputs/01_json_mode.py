@@ -1,8 +1,10 @@
 """
-05_structured_outputs/json_mode.py
+05_structured_outputs/01_json_mode.py
 
 Basic JSON mode - request JSON output from the LLM.
-This is simpler but less type-safe than Pydantic schemas.
+This is the simplest approach but less type-safe than explicit schemas.
+
+Uses OpenRouter to access models via unified API.
 """
 
 import json
@@ -17,7 +19,11 @@ def main():
     repo_root = Path(__file__).resolve().parents[2]
     config = Config(RepositoryEnv(repo_root / ".env"))
 
-    client = OpenAI(api_key=config("OPENAI_API_KEY"))
+    # Create client with OpenRouter base URL
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=config("OPENROUTER_API_KEY"),
+    )
 
     # Sample financial text to analyze
     financial_text = """
@@ -52,9 +58,10 @@ def main():
     print(financial_text.strip())
     print("\n" + "=" * 60 + "\n")
 
-    # Request JSON output
+    # Request JSON output via OpenRouter
+    # Model format: provider/model-name
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="openai/gpt-4o-mini",
         messages=messages,
         response_format={"type": "json_object"},  # Enable JSON mode
     )
@@ -69,6 +76,10 @@ def main():
     # Access fields programmatically
     print(f"\nTicker: {data['ticker']}")
     print(f"Sentiment: {data['sentiment']}")
+
+    # Show model used
+    print(f"\n--- Details ---")
+    print(f"Model: {response.model}")
 
 
 if __name__ == "__main__":

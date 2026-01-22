@@ -1,8 +1,13 @@
 """
-05_structured_outputs/pydantic_schema.py
+05_structured_outputs/03_pydantic_schema.py
 
 Type-safe structured outputs using Pydantic schemas.
-OpenAI guarantees the response matches your schema.
+Combines the benefits of:
+- Pydantic's type definitions and validation
+- OpenRouter's JSON schema enforcement
+
+The Pydantic model defines the schema, which is passed to the API.
+The response is then validated back into a typed Pydantic object.
 """
 
 from pathlib import Path
@@ -13,7 +18,7 @@ from openai import OpenAI
 from pydantic import BaseModel, Field
 
 
-# Define the schema for company analysis
+# Define the schema for company analysis using Pydantic
 class CompanyAnalysis(BaseModel):
     """Structured analysis of a company from financial text."""
 
@@ -31,12 +36,36 @@ class CompanyAnalysis(BaseModel):
     confidence: float = Field(
         description="Confidence in the analysis from 0.0 to 1.0", ge=0.0, le=1.0
     )
-    key_points: list[str] = Field(
-        description="2-4 key takeaways from the text", min_length=2, max_length=4
-    )
+    key_points: list[str] = Field(description="2-4 key takeaways from the text")
     risk_factors: list[str] = Field(
         description="Any mentioned risks or concerns", default_factory=list
     )
+
+
+def pydantic_to_strict_schema(model: type[BaseModel]) -> dict:
+    """
+    Convert a Pydantic model to a strict JSON schema compatible with OpenAI/OpenRouter.
+
+    OpenAI's strict mode requires:
+    - additionalProperties: false on all objects
+    - All properties listed in 'required' (no optional fields in the traditional sense)
+    - Nullable fields use anyOf with null type
+    """
+    schema = model.model_json_schema()
+
+    # Add additionalProperties: false to the root
+    schema["additionalProperties"] = False
+
+    # Make all properties required (OpenAI strict mode requirement)
+    # Pydantic's model_json_schema() already handles nullable types with anyOf
+    if "properties" in schema:
+        schema["required"] = list(schema["properties"].keys())
+
+    # Remove $defs if present (flatten for compatibility)
+    if "$defs" in schema:
+        del schema["$defs"]
+
+    return schema
 
 
 def main():
@@ -44,7 +73,11 @@ def main():
     repo_root = Path(__file__).resolve().parents[2]
     config = Config(RepositoryEnv(repo_root / ".env"))
 
-    client = OpenAI(api_key=config("OPENAI_API_KEY"))
+    # Create client with OpenRouter base URL
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=config("OPENROUTER_API_KEY"),
+    )
 
     # Sample financial text to analyze
     financial_text = """
@@ -72,17 +105,27 @@ def main():
     print(financial_text.strip())
     print("\n" + "=" * 60 + "\n")
 
-    # Use structured output with Pydantic schema
-    response = client.beta.chat.completions.parse(
-        model="gpt-4o-mini",
+    # Convert Pydantic model to a strict-compatible JSON schema
+    # OpenAI/OpenRouter strict mode has specific requirements
+    schema = pydantic_to_strict_schema(CompanyAnalysis)
+
+    response = client.chat.completions.create(
+        model="openai/gpt-4o-mini",
         messages=messages,
-        response_format=CompanyAnalysis,  # Pass the Pydantic class
+        response_format={
+            "type": "json_schema",
+            "json_schema": {
+                "name": "CompanyAnalysis",
+                "strict": True,
+                "schema": schema,
+            },
+        },
     )
 
-    # Get the parsed object - already typed!
-    analysis: CompanyAnalysis = response.choices[0].message.parsed
+    # Validate and parse the response into a typed Pydantic object
+    analysis = CompanyAnalysis.model_validate_json(response.choices[0].message.content)
 
-    # Access fields with type safety
+    # Access fields with full type safety
     print("Extracted Analysis:")
     print(f"  Company: {analysis.company_name} ({analysis.ticker})")
     print(f"  Revenue: ${analysis.revenue_billions}B")
@@ -102,6 +145,10 @@ def main():
     # You can also convert back to dict/JSON
     print("\n--- As JSON ---")
     print(analysis.model_dump_json(indent=2))
+
+    # Show model used
+    print(f"\n--- Details ---")
+    print(f"Model: {response.model}")
 
 
 if __name__ == "__main__":
