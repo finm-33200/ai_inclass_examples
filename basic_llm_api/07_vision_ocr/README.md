@@ -30,20 +30,23 @@ pip install -r requirements.txt
 
 ## Examples
 
-### Describe an Image
+### 01 - Describe an Image
 ```bash
-python describe_image.py
+python 01_describe_image.py
 ```
+Basic image description - send an image and get a text description.
 
-### Extract Table Data
+### 02 - Extract Table Data
 ```bash
-python extract_table.py
+python 02_extract_table.py
 ```
+Extract structured data from a table image.
 
-### Analyze a Chart
+### 03 - Analyze a Chart
 ```bash
-python read_chart.py
+python 03_read_chart.py
 ```
+Read and interpret financial charts and visualizations.
 
 ## Key Concepts
 

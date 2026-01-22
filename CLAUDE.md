@@ -35,6 +35,7 @@ ai_inclass_examples/
 
 - Each example should be self-contained and runnable independently
 - Typical example contains 1-3 scripts working together
+- **Numbering convention:** When a subdirectory contains two or more example scripts, number them with `01_`, `02_`, etc. to make the pedagogical order clear (e.g., `01_json_mode.py`, `02_json_schema.py`)
 
 ## README Guidelines
 
