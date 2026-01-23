@@ -1,0 +1,72 @@
+# promptfooconfig.yaml
+# Declarative LLM evaluation with promptfoo
+# Run: npx promptfoo@latest eval
+
+description: "Finance Q&A evaluation"
+
+# The prompt template - {{question}} is replaced with test variables
+prompts:
+  - |
+    You are a financial analyst. Answer the following question concisely and accurately.
+
+    Question: {{question}}
+
+# Models to compare
+providers:
+  - openai:gpt-4o-mini
+  - openai:gpt-4o
+
+# Test cases with assertions
+tests:
+  # Test 1: Bond current yield
+  - vars:
+      question: "What is a bond's current yield? Give the formula."
+    assert:
+      - type: contains
+        value: "coupon"
+      - type: contains
+        value: "price"
+      - type: llm-rubric
+        value: "The response correctly explains that current yield = annual coupon / current price"
+
+  # Test 2: Duration concept
+  - vars:
+      question: "What is duration in bond investing?"
+    assert:
+      - type: contains-any
+        value:
+          - "interest rate"
+          - "sensitivity"
+          - "price change"
+      - type: llm-rubric
+        value: "The response explains duration as a measure of interest rate sensitivity"
+
+  # Test 3: Portfolio variance calculation
+  - vars:
+      question: "How do you calculate the variance of a two-asset portfolio?"
+    assert:
+      - type: contains
+        value: "covariance"
+      - type: contains-any
+        value:
+          - "weight"
+          - "w1"
+          - "w₁"
+      - type: llm-rubric
+        value: "The response includes the portfolio variance formula with weights, variances, and covariance"
+
+  # Test 4: Sharpe ratio
+  - vars:
+      question: "What is the Sharpe ratio and how is it interpreted?"
+    assert:
+      - type: contains
+        value: "risk-free"
+      - type: contains-any
+        value:
+          - "standard deviation"
+          - "volatility"
+      - type: llm-rubric
+        value: "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+
+# Output settings
+outputPath: results/eval_results.json

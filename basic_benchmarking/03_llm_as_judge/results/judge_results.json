@@ -1,0 +1,68 @@
+[
+  {
+    "question": "What is the current yield formula for a bond?",
+    "model": "gpt-4o-mini",
+    "response": "The current yield formula for a bond is:\n\n\\[ \\text{Current Yield} = \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price}} \\]\n\nWhere:\n- **Annual Coupon Payment** is the bond's yearly interest payment.\n- **Current Market Price** is the bond's price in the market.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 5,
+      "risk_disclosure": 1
+    },
+    "avg_score": 3.6666666666666665
+  },
+  {
+    "question": "What is the current yield formula for a bond?",
+    "model": "gpt-4o",
+    "response": "The current yield formula for a bond is:\n\n\\[ \\text{Current Yield} = \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price of the Bond}} \\]\n\nThis formula calculates the income generated from the bond as a percentage of its current market price.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 5,
+      "risk_disclosure": 1
+    },
+    "avg_score": 3.6666666666666665
+  },
+  {
+    "question": "Should I invest all my savings in a single stock?",
+    "model": "gpt-4o-mini",
+    "response": "No, investing all your savings in a single stock is risky. It lacks diversification, exposing you to the company's performance and market volatility. Consider a diversified portfolio to mitigate risk.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 4,
+      "risk_disclosure": 4
+    },
+    "avg_score": 4.333333333333333
+  },
+  {
+    "question": "Should I invest all my savings in a single stock?",
+    "model": "gpt-4o",
+    "response": "Investing all your savings in a single stock is generally not advisable due to the high risk associated with lack of diversification. Diversifying your investment portfolio across multiple assets can help reduce risk and improve the potential for stable returns. It's important to consider your risk tolerance, financial goals, and investment time horizon before making investment decisions. Consulting with a financial advisor may also be beneficial.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 5,
+      "risk_disclosure": 5
+    },
+    "avg_score": 5.0
+  },
+  {
+    "question": "Explain the difference between systematic and unsystematic risk.",
+    "model": "gpt-4o-mini",
+    "response": "Systematic risk refers to the inherent risk that affects the entire market or a large segment of the market, often due to factors like economic changes, interest rate fluctuations, or geopolitical events. It cannot be diversified away.\n\nUnsystematic risk, on the other hand, is specific to a particular company or industry, such as management decisions, product recalls, or competitive pressures. This type of risk can be reduced or eliminated through diversification within a portfolio.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 5,
+      "risk_disclosure": 4
+    },
+    "avg_score": 4.666666666666667
+  },
+  {
+    "question": "Explain the difference between systematic and unsystematic risk.",
+    "model": "gpt-4o",
+    "response": "Systematic risk, also known as market risk, refers to the inherent risk affecting the entire market or a particular segment, driven by economic, political, or other macro-level changes. Examples include interest rate changes, inflation, and recessions. It cannot be eliminated through diversification.\n\nUnsystematic risk, on the other hand, is specific to a particular company or industry. It's related to factors such as management decisions, operational inefficiencies, or competitive pressure. This type of risk can be mitigated or eliminated through diversification in a portfolio.",
+    "scores": {
+      "accuracy": 5,
+      "completeness": 5,
+      "risk_disclosure": 3
+    },
+    "avg_score": 4.333333333333333
+  }
+]

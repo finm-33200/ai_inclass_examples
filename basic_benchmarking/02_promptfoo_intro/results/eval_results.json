@@ -1,0 +1,1203 @@
+{
+  "evalId": "eval-eGg-2026-01-23T00:14:01",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-01-23T00:14:01.810Z",
+    "prompts": [
+      {
+        "id": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+        "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+        "provider": "openai:gpt-4o-mini",
+        "metrics": {
+          "score": 3.6666666666666665,
+          "testPassCount": 3,
+          "testFailCount": 1,
+          "testErrorCount": 0,
+          "assertPassCount": 10,
+          "assertFailCount": 1,
+          "totalLatencyMs": 18664,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 825,
+            "total": 825,
+            "numRequests": 4,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 2312,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 2312,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0.00043019999999999994
+        }
+      },
+      {
+        "id": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+        "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+        "provider": "openai:gpt-4o",
+        "metrics": {
+          "score": 3.6666666666666665,
+          "testPassCount": 3,
+          "testFailCount": 1,
+          "testErrorCount": 0,
+          "assertPassCount": 10,
+          "assertFailCount": 1,
+          "totalLatencyMs": 16511,
+          "tokenUsage": {
+            "prompt": 0,
+            "completion": 0,
+            "cached": 869,
+            "total": 869,
+            "numRequests": 4,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 2240,
+              "prompt": 0,
+              "completion": 0,
+              "cached": 2240,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0.0076100000000000004
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.0011325,
+        "error": "Expected output to contain \"coupon\"",
+        "gradingResult": {
+          "pass": false,
+          "score": 0.6666666666666666,
+          "reason": "Expected output to contain \"coupon\"",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 471,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 471,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Expected output to contain \"coupon\"",
+              "assertion": {
+                "type": "contains",
+                "value": "coupon"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "price"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response correctly explains that current yield = annual coupon / current price"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The response states that current yield equals the annual coupon payment divided by the bond’s current market price (times 100%).",
+              "tokensUsed": {
+                "total": 471,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 471,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nA bond's current yield is a measure of the annual income (interest or dividends) generated by the bond as a percentage of its current market price. The formula for calculating a bond's current yield is:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\left( \\\\frac{\\\\text{Annual Coupon Payment}}{\\\\text{Current Market Price of the Bond}} \\\\right) \\\\times 100\\\\% \\\\]\\n\\nThis calculation helps investors understand how much income they can expect to earn from the bond relative to its current price.\\n</Output>\\n<Rubric>\\nThe response correctly explains that current yield = annual coupon / current price\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "a7aa6fcb-e4d6-4ce2-9e11-729654ae4459",
+        "latencyMs": 2815,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is a bond's current yield? Give the formula.\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "A bond's current yield is a measure of the annual income (interest or dividends) generated by the bond as a percentage of its current market price. The formula for calculating a bond's current yield is:\n\n\\[ \\text{Current Yield} = \\left( \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price of the Bond}} \\right) \\times 100\\% \\]\n\nThis calculation helps investors understand how much income they can expect to earn from the bond relative to its current price.",
+          "tokenUsage": {
+            "cached": 141,
+            "total": 141
+          },
+          "cached": true,
+          "latencyMs": 2815,
+          "finishReason": "stop",
+          "cost": 0.0011325,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 0.6666666666666666,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "question": "What is a bond's current yield? Give the formula."
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "coupon"
+            },
+            {
+              "type": "contains",
+              "value": "price"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response correctly explains that current yield = annual coupon / current price"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "question": "What is a bond's current yield? Give the formula."
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0.00007395,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 493,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 493,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "coupon"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "price"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response correctly explains that current yield = annual coupon / current price"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The output explicitly states 'Current Yield = (Annual Coupon Payment / Current Market Price) x 100', correctly conveying current yield as annual coupon divided by current price.",
+              "tokensUsed": {
+                "total": 493,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 493,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nA bond's current yield is a financial metric that measures the annual income (interest or coupon payment) generated by a bond relative to its current market price. It helps investors assess the yield on a bond without considering its face value.\\n\\nThe formula for calculating a bond's current yield is:\\n\\n**Current Yield = (Annual Coupon Payment / Current Market Price) x 100**\\n\\nWhere:\\n- **Annual Coupon Payment** is the amount of interest paid by the bond each year.\\n- **Current Market Price** is the price at which the bond is currently trading in the market.\\n</Output>\\n<Rubric>\\nThe response correctly explains that current yield = annual coupon / current price\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "968c35e7-b57f-4709-a2ca-767722ceb1a0",
+        "latencyMs": 3131,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is a bond's current yield? Give the formula.\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "A bond's current yield is a financial metric that measures the annual income (interest or coupon payment) generated by a bond relative to its current market price. It helps investors assess the yield on a bond without considering its face value.\n\nThe formula for calculating a bond's current yield is:\n\n**Current Yield = (Annual Coupon Payment / Current Market Price) x 100**\n\nWhere:\n- **Annual Coupon Payment** is the amount of interest paid by the bond each year.\n- **Current Market Price** is the price at which the bond is currently trading in the market.",
+          "tokenUsage": {
+            "cached": 151,
+            "total": 151
+          },
+          "cached": true,
+          "latencyMs": 3131,
+          "finishReason": "stop",
+          "cost": 0.00007395,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is a bond's current yield? Give the formula."
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "coupon"
+            },
+            {
+              "type": "contains",
+              "value": "price"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response correctly explains that current yield = annual coupon / current price"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "question": "What is a bond's current yield? Give the formula."
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00006479999999999999,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 468,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 468,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "interest rate",
+                  "sensitivity",
+                  "price change"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response explains duration as a measure of interest rate sensitivity"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The response explicitly defines duration as a measure of a bond’s price sensitivity to interest rate changes and elaborates on it.",
+              "tokensUsed": {
+                "total": 468,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 468,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nDuration in bond investing is a measure of the sensitivity of a bond's price to changes in interest rates, expressed in years. It indicates how much the price of a bond will change when interest rates move. There are different types of duration, including Macaulay duration, which calculates the weighted average time to receive cash flows, and modified duration, which adjusts Macaulay duration to estimate price volatility. A higher duration means greater price sensitivity to interest rate changes, while a lower duration indicates less sensitivity.\\n</Output>\\n<Rubric>\\nThe response explains duration as a measure of interest rate sensitivity\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "ed3052cf-8c33-475a-98f9-c19c25da922a",
+        "latencyMs": 2977,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is duration in bond investing?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Duration in bond investing is a measure of the sensitivity of a bond's price to changes in interest rates, expressed in years. It indicates how much the price of a bond will change when interest rates move. There are different types of duration, including Macaulay duration, which calculates the weighted average time to receive cash flows, and modified duration, which adjusts Macaulay duration to estimate price volatility. A higher duration means greater price sensitivity to interest rate changes, while a lower duration indicates less sensitivity.",
+          "tokenUsage": {
+            "cached": 132,
+            "total": 132
+          },
+          "cached": true,
+          "latencyMs": 2977,
+          "finishReason": "stop",
+          "cost": 0.00006479999999999999,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is duration in bond investing?"
+          },
+          "assert": [
+            {
+              "type": "contains-any",
+              "value": [
+                "interest rate",
+                "sensitivity",
+                "price change"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response explains duration as a measure of interest rate sensitivity"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "question": "What is duration in bond investing?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00175,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 468,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 468,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "interest rate",
+                  "sensitivity",
+                  "price change"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response explains duration as a measure of interest rate sensitivity"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The output explicitly states that duration measures a bond's price sensitivity to interest rate changes and describes Macaulay and modified duration.",
+              "tokensUsed": {
+                "total": 468,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 468,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nDuration in bond investing is a measure of the sensitivity of a bond's price to changes in interest rates. It is expressed in years and reflects the weighted average time it takes to receive all cash flows (both interest and principal) from the bond. There are two primary types of duration: Macaulay duration and modified duration. \\n\\n- **Macaulay Duration** represents the weighted average time to receive the bond's cash flows.\\n- **Modified Duration** adjusts the Macaulay duration to account for changes in interest rates, effectively providing an estimate of how much the price of a bond is expected to change for a 1% change in interest rates.\\n\\nIn essence, duration is used by investors to assess the risk related to interest rate fluctuations. Generally, the longer the duration, the more sensitive the bond is to interest rate changes.\\n</Output>\\n<Rubric>\\nThe response explains duration as a measure of interest rate sensitivity\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "421fd342-3aaa-4418-9cda-75ff84015555",
+        "latencyMs": 4508,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is duration in bond investing?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "Duration in bond investing is a measure of the sensitivity of a bond's price to changes in interest rates. It is expressed in years and reflects the weighted average time it takes to receive all cash flows (both interest and principal) from the bond. There are two primary types of duration: Macaulay duration and modified duration. \n\n- **Macaulay Duration** represents the weighted average time to receive the bond's cash flows.\n- **Modified Duration** adjusts the Macaulay duration to account for changes in interest rates, effectively providing an estimate of how much the price of a bond is expected to change for a 1% change in interest rates.\n\nIn essence, duration is used by investors to assess the risk related to interest rate fluctuations. Generally, the longer the duration, the more sensitive the bond is to interest rate changes.",
+          "tokenUsage": {
+            "cached": 199,
+            "total": 199
+          },
+          "cached": true,
+          "latencyMs": 4508,
+          "finishReason": "stop",
+          "cost": 0.00175,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is duration in bond investing?"
+          },
+          "assert": [
+            {
+              "type": "contains-any",
+              "value": [
+                "interest rate",
+                "sensitivity",
+                "price change"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response explains duration as a measure of interest rate sensitivity"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "question": "What is duration in bond investing?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00015329999999999999,
+        "error": "Expected output to contain \"covariance\"",
+        "gradingResult": {
+          "pass": false,
+          "score": 0.6666666666666666,
+          "reason": "Expected output to contain \"covariance\"",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 754,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 754,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": false,
+              "score": 0,
+              "reason": "Expected output to contain \"covariance\"",
+              "assertion": {
+                "type": "contains",
+                "value": "covariance"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "weight",
+                  "w1",
+                  "w₁"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response includes the portfolio variance formula with weights, variances, and covariance"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "Includes the standard two-asset portfolio variance formula with weights, individual variances, and the covariance term expressed via 2 w1 w2 σ1 σ2 ρ12.",
+              "tokensUsed": {
+                "total": 754,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 754,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nTo calculate the variance of a two-asset portfolio, you can use the following formula:\\n\\n\\\\[\\n\\\\sigma_p^2 = w_1^2 \\\\sigma_1^2 + w_2^2 \\\\sigma_2^2 + 2 w_1 w_2 \\\\sigma_1 \\\\sigma_2 \\\\rho_{12}\\n\\\\]\\n\\nWhere:\\n- \\\\( \\\\sigma_p^2 \\\\) = variance of the portfolio\\n- \\\\( w_1 \\\\) = weight of asset 1 in the portfolio\\n- \\\\( w_2 \\\\) = weight of asset 2 in the portfolio\\n- \\\\( \\\\sigma_1^2 \\\\) = variance of asset 1\\n- \\\\( \\\\sigma_2^2 \\\\) = variance of asset 2\\n- \\\\( \\\\sigma_1 \\\\) = standard deviation of asset 1\\n- \\\\( \\\\sigma_2 \\\\) = standard deviation of asset 2\\n- \\\\( \\\\rho_{12} \\\\) = correlation coefficient between the returns of asset 1 and asset 2\\n\\nTo use this formula, you need the weights of each asset in the portfolio, their individual variances (or standard deviations), and the correlation between their returns.\\n</Output>\\n<Rubric>\\nThe response includes the portfolio variance formula with weights, variances, and covariance\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "1016de0a-7e37-49ab-9f77-615f69cbb333",
+        "latencyMs": 6156,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: How do you calculate the variance of a two-asset portfolio?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "To calculate the variance of a two-asset portfolio, you can use the following formula:\n\n\\[\n\\sigma_p^2 = w_1^2 \\sigma_1^2 + w_2^2 \\sigma_2^2 + 2 w_1 w_2 \\sigma_1 \\sigma_2 \\rho_{12}\n\\]\n\nWhere:\n- \\( \\sigma_p^2 \\) = variance of the portfolio\n- \\( w_1 \\) = weight of asset 1 in the portfolio\n- \\( w_2 \\) = weight of asset 2 in the portfolio\n- \\( \\sigma_1^2 \\) = variance of asset 1\n- \\( \\sigma_2^2 \\) = variance of asset 2\n- \\( \\sigma_1 \\) = standard deviation of asset 1\n- \\( \\sigma_2 \\) = standard deviation of asset 2\n- \\( \\rho_{12} \\) = correlation coefficient between the returns of asset 1 and asset 2\n\nTo use this formula, you need the weights of each asset in the portfolio, their individual variances (or standard deviations), and the correlation between their returns.",
+          "tokenUsage": {
+            "cached": 284,
+            "total": 284
+          },
+          "cached": true,
+          "latencyMs": 6156,
+          "finishReason": "stop",
+          "cost": 0.00015329999999999999,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 0.6666666666666666,
+        "success": false,
+        "testCase": {
+          "vars": {
+            "question": "How do you calculate the variance of a two-asset portfolio?"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "covariance"
+            },
+            {
+              "type": "contains-any",
+              "value": [
+                "weight",
+                "w1",
+                "w₁"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response includes the portfolio variance formula with weights, variances, and covariance"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "question": "How do you calculate the variance of a two-asset portfolio?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 1
+      },
+      {
+        "cost": 0.0023650000000000003,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 685,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 685,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "covariance"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "weight",
+                  "w1",
+                  "w₁"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response includes the portfolio variance formula with weights, variances, and covariance"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "The response presents σ_p^2 = w1^2 σ1^2 + w2^2 σ2^2 + 2 w1 w2 Cov(r1, r2) and explicitly defines weights, variances, and covariance.",
+              "tokensUsed": {
+                "total": 685,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 685,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nTo calculate the variance of a two-asset portfolio, you need to consider the individual variances of each asset, their weights in the portfolio, and the covariance between the two assets. The formula is:\\n\\n\\\\[ \\\\sigma^2_p = w_1^2 \\\\sigma^2_1 + w_2^2 \\\\sigma^2_2 + 2w_1w_2 \\\\text{Cov}(r_1, r_2) \\\\]\\n\\nWhere:\\n- \\\\( \\\\sigma^2_p \\\\) is the variance of the portfolio.\\n- \\\\( w_1 \\\\) and \\\\( w_2 \\\\) are the weights of asset 1 and asset 2 in the portfolio, respectively.\\n- \\\\( \\\\sigma^2_1 \\\\) and \\\\( \\\\sigma^2_2 \\\\) are the variances of asset 1 and asset 2, respectively.\\n- \\\\( \\\\text{Cov}(r_1, r_2) \\\\) is the covariance between the returns of the two assets.\\n\\nThis formula accounts for both the individual risks of the assets and the degree to which they move together.\\n</Output>\\n<Rubric>\\nThe response includes the portfolio variance formula with weights, variances, and covariance\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "730b1bc2-7f98-41a7-97f7-e8c680dc6cdf",
+        "latencyMs": 3700,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: How do you calculate the variance of a two-asset portfolio?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "To calculate the variance of a two-asset portfolio, you need to consider the individual variances of each asset, their weights in the portfolio, and the covariance between the two assets. The formula is:\n\n\\[ \\sigma^2_p = w_1^2 \\sigma^2_1 + w_2^2 \\sigma^2_2 + 2w_1w_2 \\text{Cov}(r_1, r_2) \\]\n\nWhere:\n- \\( \\sigma^2_p \\) is the variance of the portfolio.\n- \\( w_1 \\) and \\( w_2 \\) are the weights of asset 1 and asset 2 in the portfolio, respectively.\n- \\( \\sigma^2_1 \\) and \\( \\sigma^2_2 \\) are the variances of asset 1 and asset 2, respectively.\n- \\( \\text{Cov}(r_1, r_2) \\) is the covariance between the returns of the two assets.\n\nThis formula accounts for both the individual risks of the assets and the degree to which they move together.",
+          "tokenUsage": {
+            "cached": 265,
+            "total": 265
+          },
+          "cached": true,
+          "latencyMs": 3700,
+          "finishReason": "stop",
+          "cost": 0.0023650000000000003,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "How do you calculate the variance of a two-asset portfolio?"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "covariance"
+            },
+            {
+              "type": "contains-any",
+              "value": [
+                "weight",
+                "w1",
+                "w₁"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response includes the portfolio variance formula with weights, variances, and covariance"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "question": "How do you calculate the variance of a two-asset portfolio?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00013815,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 597,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 597,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "risk-free"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "standard deviation",
+                  "volatility"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "Defines Sharpe as (R - R_f)/σ and states that a higher Sharpe ratio indicates better risk-adjusted return.",
+              "tokensUsed": {
+                "total": 597,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 597,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe Sharpe ratio is a measure used to evaluate the risk-adjusted return of an investment. It is calculated by subtracting the risk-free rate of return from the expected return of the investment and then dividing that result by the investment's standard deviation (a measure of its volatility). The formula is:\\n\\n\\\\[ \\\\text{Sharpe Ratio} = \\\\frac{R - R_f}{\\\\sigma} \\\\]\\n\\nWhere:\\n- \\\\( R \\\\) = expected return of the investment\\n- \\\\( R_f \\\\) = risk-free rate of return\\n- \\\\( \\\\sigma \\\\) = standard deviation of the investment's returns\\n\\n**Interpretation:**\\n- A **higher Sharpe ratio** indicates that the investment has a better risk-adjusted return, meaning you are getting more return for each unit of risk taken.\\n- A **Sharpe ratio of 1** is considered acceptable, above 1 is good, and above 2 is very good. \\n- A **negative Sharpe ratio** suggests that the investment has underperformed compared to a risk-free asset, indicating high risk relative to its returns.\\n</Output>\\n<Rubric>\\nThe response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "ec986000-ea1a-4642-92b7-196e934f3233",
+        "latencyMs": 6400,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is the Sharpe ratio and how is it interpreted?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "The Sharpe ratio is a measure used to evaluate the risk-adjusted return of an investment. It is calculated by subtracting the risk-free rate of return from the expected return of the investment and then dividing that result by the investment's standard deviation (a measure of its volatility). The formula is:\n\n\\[ \\text{Sharpe Ratio} = \\frac{R - R_f}{\\sigma} \\]\n\nWhere:\n- \\( R \\) = expected return of the investment\n- \\( R_f \\) = risk-free rate of return\n- \\( \\sigma \\) = standard deviation of the investment's returns\n\n**Interpretation:**\n- A **higher Sharpe ratio** indicates that the investment has a better risk-adjusted return, meaning you are getting more return for each unit of risk taken.\n- A **Sharpe ratio of 1** is considered acceptable, above 1 is good, and above 2 is very good. \n- A **negative Sharpe ratio** suggests that the investment has underperformed compared to a risk-free asset, indicating high risk relative to its returns.",
+          "tokenUsage": {
+            "cached": 258,
+            "total": 258
+          },
+          "cached": true,
+          "latencyMs": 6400,
+          "finishReason": "stop",
+          "cost": 0.00013815,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is the Sharpe ratio and how is it interpreted?"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "risk-free"
+            },
+            {
+              "type": "contains-any",
+              "value": [
+                "standard deviation",
+                "volatility"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "vars": {
+          "question": "What is the Sharpe ratio and how is it interpreted?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0023625000000000005,
+        "gradingResult": {
+          "pass": true,
+          "score": 1,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 616,
+            "prompt": 0,
+            "completion": 0,
+            "cached": 616,
+            "numRequests": 0
+          },
+          "componentResults": [
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains",
+                "value": "risk-free"
+              }
+            },
+            {
+              "pass": true,
+              "score": 1,
+              "reason": "Assertion passed",
+              "assertion": {
+                "type": "contains-any",
+                "value": [
+                  "standard deviation",
+                  "volatility"
+                ]
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+              },
+              "pass": true,
+              "score": 1,
+              "reason": "It defines Sharpe as (average return − risk-free rate) divided by the investment’s standard deviation and states that a higher Sharpe ratio indicates better risk-adjusted returns.",
+              "tokensUsed": {
+                "total": 616,
+                "prompt": 0,
+                "completion": 0,
+                "cached": 616,
+                "numRequests": 0,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe Sharpe ratio is a financial metric used to assess the risk-adjusted return of an investment or portfolio. It is calculated by subtracting the risk-free rate of return (typically represented by government bond yields) from the average return of the investment, and then dividing that result by the investment's standard deviation (a measure of its volatility). The formula is:\\n\\n\\\\[ \\\\text{Sharpe Ratio} = \\\\frac{\\\\text{Average Return of the Investment} - \\\\text{Risk-Free Rate}}{\\\\text{Standard Deviation of the Investment}} \\\\]\\n\\nInterpretation:\\n- A higher Sharpe ratio indicates that the investment offers a better risk-adjusted return, meaning it generates more returns per unit of risk.\\n- A low or negative Sharpe ratio suggests that an investment offers lower returns per unit of risk, which may imply poor investment performance compared to a risk-free investment.\\n- Generally, a Sharpe ratio above 1.0 is considered acceptable, above 2.0 is viewed as very good, and above 3.0 is considered excellent. However, these thresholds can vary depending on market conditions and investment context.\\n</Output>\\n<Rubric>\\nThe response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "95a801bd-9521-4d3b-a76b-437b6eddec22",
+        "latencyMs": 5488,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: What is the Sharpe ratio and how is it interpreted?\n",
+          "label": "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n",
+          "config": {}
+        },
+        "promptId": "4413bba981266dcd61723763802768df128497626b5e6fa3baf420daae3f79bd",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "The Sharpe ratio is a financial metric used to assess the risk-adjusted return of an investment or portfolio. It is calculated by subtracting the risk-free rate of return (typically represented by government bond yields) from the average return of the investment, and then dividing that result by the investment's standard deviation (a measure of its volatility). The formula is:\n\n\\[ \\text{Sharpe Ratio} = \\frac{\\text{Average Return of the Investment} - \\text{Risk-Free Rate}}{\\text{Standard Deviation of the Investment}} \\]\n\nInterpretation:\n- A higher Sharpe ratio indicates that the investment offers a better risk-adjusted return, meaning it generates more returns per unit of risk.\n- A low or negative Sharpe ratio suggests that an investment offers lower returns per unit of risk, which may imply poor investment performance compared to a risk-free investment.\n- Generally, a Sharpe ratio above 1.0 is considered acceptable, above 2.0 is viewed as very good, and above 3.0 is considered excellent. However, these thresholds can vary depending on market conditions and investment context.",
+          "tokenUsage": {
+            "cached": 264,
+            "total": 264
+          },
+          "cached": true,
+          "latencyMs": 5488,
+          "finishReason": "stop",
+          "cost": 0.0023625000000000005,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 1,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is the Sharpe ratio and how is it interpreted?"
+          },
+          "assert": [
+            {
+              "type": "contains",
+              "value": "risk-free"
+            },
+            {
+              "type": "contains-any",
+              "value": [
+                "standard deviation",
+                "volatility"
+              ]
+            },
+            {
+              "type": "llm-rubric",
+              "value": "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+            }
+          ],
+          "options": {},
+          "metadata": {}
+        },
+        "testIdx": 3,
+        "vars": {
+          "question": "What is the Sharpe ratio and how is it interpreted?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 6,
+      "failures": 2,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 0,
+        "completion": 0,
+        "cached": 1694,
+        "total": 1694,
+        "numRequests": 8,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0
+        },
+        "assertions": {
+          "total": 4552,
+          "prompt": 0,
+          "completion": 0,
+          "cached": 4552,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0
+          }
+        }
+      },
+      "durationMs": 42
+    }
+  },
+  "config": {
+    "description": "Finance Q&A evaluation",
+    "prompts": [
+      "You are a financial analyst. Answer the following question concisely and accurately.\n\nQuestion: {{question}}\n"
+    ],
+    "providers": [
+      "openai:gpt-4o-mini",
+      "openai:gpt-4o"
+    ],
+    "tests": [
+      {
+        "vars": {
+          "question": "What is a bond's current yield? Give the formula."
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "coupon"
+          },
+          {
+            "type": "contains",
+            "value": "price"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The response correctly explains that current yield = annual coupon / current price"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "question": "What is duration in bond investing?"
+        },
+        "assert": [
+          {
+            "type": "contains-any",
+            "value": [
+              "interest rate",
+              "sensitivity",
+              "price change"
+            ]
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The response explains duration as a measure of interest rate sensitivity"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "question": "How do you calculate the variance of a two-asset portfolio?"
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "covariance"
+          },
+          {
+            "type": "contains-any",
+            "value": [
+              "weight",
+              "w1",
+              "w₁"
+            ]
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The response includes the portfolio variance formula with weights, variances, and covariance"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "question": "What is the Sharpe ratio and how is it interpreted?"
+        },
+        "assert": [
+          {
+            "type": "contains",
+            "value": "risk-free"
+          },
+          {
+            "type": "contains-any",
+            "value": [
+              "standard deviation",
+              "volatility"
+            ]
+          },
+          {
+            "type": "llm-rubric",
+            "value": "The response correctly defines Sharpe as (return - risk-free) / std dev and explains higher is better"
+          }
+        ]
+      }
+    ],
+    "outputPath": "results/eval_results.json",
+    "extensions": []
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.120.16",
+    "nodeVersion": "v24.11.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-01-23T00:14:01.891Z",
+    "evaluationCreatedAt": "2026-01-23T00:14:01.810Z"
+  }
+}

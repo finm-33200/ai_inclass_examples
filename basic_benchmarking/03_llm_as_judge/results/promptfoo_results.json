@@ -1,0 +1,990 @@
+{
+  "evalId": "eval-rcf-2026-01-23T00:14:15",
+  "results": {
+    "version": 3,
+    "timestamp": "2026-01-23T00:14:15.716Z",
+    "prompts": [
+      {
+        "id": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+        "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+        "provider": "openai:gpt-4o-mini",
+        "metrics": {
+          "score": 15,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 6,
+          "assertFailCount": 0,
+          "totalLatencyMs": 27269,
+          "tokenUsage": {
+            "prompt": 92,
+            "completion": 1094,
+            "cached": 0,
+            "total": 1186,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 3800,
+              "prompt": 3448,
+              "completion": 352,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0.0006701999999999999
+        }
+      },
+      {
+        "id": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+        "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+        "provider": "openai:gpt-4o",
+        "metrics": {
+          "score": 15,
+          "testPassCount": 3,
+          "testFailCount": 0,
+          "testErrorCount": 0,
+          "assertPassCount": 6,
+          "assertFailCount": 0,
+          "totalLatencyMs": 32079,
+          "tokenUsage": {
+            "prompt": 92,
+            "completion": 1020,
+            "cached": 0,
+            "total": 1112,
+            "numRequests": 3,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            },
+            "assertions": {
+              "total": 3685,
+              "prompt": 3300,
+              "completion": 385,
+              "cached": 0,
+              "numRequests": 0,
+              "completionDetails": {
+                "reasoning": 0,
+                "acceptedPrediction": 0,
+                "rejectedPrediction": 0
+              }
+            }
+          },
+          "namedScores": {},
+          "namedScoresCount": {},
+          "cost": 0.010430000000000002
+        }
+      }
+    ],
+    "results": [
+      {
+        "cost": 0.001415,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 769,
+            "prompt": 682,
+            "completion": 87,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "ACCURACY: Is the formula correct (current yield = annual coupon / current price)?\nScore 1-5 where 5 is completely accurate.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The formula for current yield is accurately described as current yield = annual coupon payment / current market price of the bond.",
+              "tokensUsed": {
+                "total": 381,
+                "prompt": 343,
+                "completion": 38,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe current yield of a bond is a measure of the income it generates relative to its current market price. It is calculated using the following formula:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{\\\\text{Annual Coupon Payment}}{\\\\text{Current Market Price of the Bond}} \\\\]\\n\\nWhere:\\n- The Annual Coupon Payment is the total interest the bondholder receives in a year.\\n- The Current Market Price of the Bond is the bond's current trading price in the market.\\n\\nThe current yield provides an indication of the return an investor can expect if they purchase the bond at its current market price, without considering potential gains or losses from changes in the bond's price.\\n</Output>\\n<Rubric>\\nACCURACY: Is the formula correct (current yield = annual coupon / current price)?\\nScore 1-5 where 5 is completely accurate.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "COMPLETENESS: Does the response explain what each term means?\nScore 1-5 where 5 is fully complete.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The output defines all necessary terms: 'Current Yield', 'Annual Coupon Payment', and 'Current Market Price of the Bond', providing a clear explanation of what each represents.",
+              "tokensUsed": {
+                "total": 388,
+                "prompt": 339,
+                "completion": 49,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe current yield of a bond is a measure of the income it generates relative to its current market price. It is calculated using the following formula:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{\\\\text{Annual Coupon Payment}}{\\\\text{Current Market Price of the Bond}} \\\\]\\n\\nWhere:\\n- The Annual Coupon Payment is the total interest the bondholder receives in a year.\\n- The Current Market Price of the Bond is the bond's current trading price in the market.\\n\\nThe current yield provides an indication of the return an investor can expect if they purchase the bond at its current market price, without considering potential gains or losses from changes in the bond's price.\\n</Output>\\n<Rubric>\\nCOMPLETENESS: Does the response explain what each term means?\\nScore 1-5 where 5 is fully complete.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "d7d4e835-d89f-4159-b7a0-b25e5556ad8a",
+        "latencyMs": 3719,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: What is the current yield formula for a bond?\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "The current yield of a bond is a measure of the income it generates relative to its current market price. It is calculated using the following formula:\n\n\\[ \\text{Current Yield} = \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price of the Bond}} \\]\n\nWhere:\n- The Annual Coupon Payment is the total interest the bondholder receives in a year.\n- The Current Market Price of the Bond is the bond's current trading price in the market.\n\nThe current yield provides an indication of the return an investor can expect if they purchase the bond at its current market price, without considering potential gains or losses from changes in the bond's price.",
+          "tokenUsage": {
+            "total": 164,
+            "prompt": 30,
+            "completion": 134,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 3719,
+          "finishReason": "stop",
+          "cost": 0.001415,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is the current yield formula for a bond?"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "ACCURACY: Is the formula correct (current yield = annual coupon / current price)?\nScore 1-5 where 5 is completely accurate.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "COMPLETENESS: Does the response explain what each term means?\nScore 1-5 where 5 is fully complete.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "question": "What is the current yield formula for a bond?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0001407,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 955,
+            "prompt": 868,
+            "completion": 87,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "ACCURACY: Is the formula correct (current yield = annual coupon / current price)?\nScore 1-5 where 5 is completely accurate.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The output correctly presents the formula for current yield as 'Current Yield = Annual Coupon Payment / Current Market Price'. It accurately explains the components and provides a correct example.",
+              "tokensUsed": {
+                "total": 486,
+                "prompt": 436,
+                "completion": 50,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe current yield of a bond is a financial metric that measures the income generated by the bond relative to its current market price. It can be calculated using the following formula:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{\\\\text{Annual Coupon Payment}}{\\\\text{Current Market Price}} \\\\]\\n\\nWhere:\\n- **Annual Coupon Payment** is the total amount of interest paid by the bond issuer over a year (usually derived from the bond's coupon rate multiplied by its face value).\\n- **Current Market Price** is the price at which the bond is currently trading in the market.\\n\\nFor example, if a bond has a face value of $1,000 and a coupon rate of 5%, the annual coupon payment would be $50. If the bond is currently trading at $950, the current yield would be:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{50}{950} \\\\approx 0.0526 \\\\text{ or } 5.26\\\\% \\\\]\\n\\nThis yield gives investors an idea of the income they could expect to receive if they were to purchase the bond at its current market price.\\n</Output>\\n<Rubric>\\nACCURACY: Is the formula correct (current yield = annual coupon / current price)?\\nScore 1-5 where 5 is completely accurate.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "COMPLETENESS: Does the response explain what each term means?\nScore 1-5 where 5 is fully complete.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The response explains each term: 'Annual Coupon Payment' and 'Current Market Price', including an example calculation.",
+              "tokensUsed": {
+                "total": 469,
+                "prompt": 432,
+                "completion": 37,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nThe current yield of a bond is a financial metric that measures the income generated by the bond relative to its current market price. It can be calculated using the following formula:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{\\\\text{Annual Coupon Payment}}{\\\\text{Current Market Price}} \\\\]\\n\\nWhere:\\n- **Annual Coupon Payment** is the total amount of interest paid by the bond issuer over a year (usually derived from the bond's coupon rate multiplied by its face value).\\n- **Current Market Price** is the price at which the bond is currently trading in the market.\\n\\nFor example, if a bond has a face value of $1,000 and a coupon rate of 5%, the annual coupon payment would be $50. If the bond is currently trading at $950, the current yield would be:\\n\\n\\\\[ \\\\text{Current Yield} = \\\\frac{50}{950} \\\\approx 0.0526 \\\\text{ or } 5.26\\\\% \\\\]\\n\\nThis yield gives investors an idea of the income they could expect to receive if they were to purchase the bond at its current market price.\\n</Output>\\n<Rubric>\\nCOMPLETENESS: Does the response explain what each term means?\\nScore 1-5 where 5 is fully complete.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "94a11ee7-2c2b-4b5d-bc7d-fb50ee3e18f0",
+        "latencyMs": 6048,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: What is the current yield formula for a bond?\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "The current yield of a bond is a financial metric that measures the income generated by the bond relative to its current market price. It can be calculated using the following formula:\n\n\\[ \\text{Current Yield} = \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price}} \\]\n\nWhere:\n- **Annual Coupon Payment** is the total amount of interest paid by the bond issuer over a year (usually derived from the bond's coupon rate multiplied by its face value).\n- **Current Market Price** is the price at which the bond is currently trading in the market.\n\nFor example, if a bond has a face value of $1,000 and a coupon rate of 5%, the annual coupon payment would be $50. If the bond is currently trading at $950, the current yield would be:\n\n\\[ \\text{Current Yield} = \\frac{50}{950} \\approx 0.0526 \\text{ or } 5.26\\% \\]\n\nThis yield gives investors an idea of the income they could expect to receive if they were to purchase the bond at its current market price.",
+          "tokenUsage": {
+            "total": 257,
+            "prompt": 30,
+            "completion": 227,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 6048,
+          "finishReason": "stop",
+          "cost": 0.0001407,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "What is the current yield formula for a bond?"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "ACCURACY: Is the formula correct (current yield = annual coupon / current price)?\nScore 1-5 where 5 is completely accurate.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "COMPLETENESS: Does the response explain what each term means?\nScore 1-5 where 5 is fully complete.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 0,
+        "vars": {
+          "question": "What is the current yield formula for a bond?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00021525,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 1245,
+            "prompt": 1120,
+            "completion": 125,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "RISK DISCLOSURE: Does the response warn against concentration risk?\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The response explicitly warns against concentration risk and emphasizes the importance of diversification. It provides detailed reasons such as lack of diversification, market volatility, risk tolerance, investment horizon, opportunity cost, and emotional investing. Overall, it covers risk awareness comprehensively.",
+              "tokensUsed": {
+                "total": 628,
+                "prompt": 562,
+                "completion": 66,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nInvesting all your savings in a single stock is generally not advisable for several reasons:\\n\\n1. **Lack of Diversification**: Putting all your money into one stock exposes you to the specific risks associated with that company. If the stock underperforms or if the company faces difficulties, you could incur significant losses.\\n\\n2. **Market Volatility**: Stocks can be volatile, and their prices can fluctuate widely due to market conditions, economic factors, or company-specific news. Diversifying your investments can help mitigate this volatility.\\n\\n3. **Risk Tolerance**: Depending on your personal financial situation and risk tolerance, investing in a single stock can be more speculative than conservative. It's essential to consider how much risk you are willing and able to take.\\n\\n4. **Investment Horizon**: If you are investing for long-term goals (like retirement), concentrating your funds in one stock could expose you to unnecessary risk. A diversified portfolio can help achieve more stable returns over time.\\n\\n5. **Opportunity Cost**: By investing in just one stock, you may miss out on potential gains from other investments, including bonds, mutual funds, or various sectors of the market that might perform better.\\n\\n6. **Emotional Investing**: Investing heavily in one stock can lead to emotional decision-making. If the stock declines in value, you may panic and make impulsive decisions that could undermine your long-term investment strategy.\\n\\nInstead of investing all your savings in a single stock, consider building a diversified portfolio that includes a mix of assets tailored to your risk tolerance, investment goals, and time horizon. This approach can help spread risk and potentially lead to more stable returns over time. If you are unsure, consulting with a financial advisor can provide personalized guidance based on your situation.\\n</Output>\\n<Rubric>\\nRISK DISCLOSURE: Does the response warn against concentration risk?\\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\nScore 1-5 where 5 is fully responsible advice.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The output provides comprehensive advice on the risks of investing all savings in a single stock, emphasizing diversification, risk tolerance, and consulting with a financial advisor, aligning well with what a licensed financial advisor would typically recommend.",
+              "tokensUsed": {
+                "total": 617,
+                "prompt": 558,
+                "completion": 59,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nInvesting all your savings in a single stock is generally not advisable for several reasons:\\n\\n1. **Lack of Diversification**: Putting all your money into one stock exposes you to the specific risks associated with that company. If the stock underperforms or if the company faces difficulties, you could incur significant losses.\\n\\n2. **Market Volatility**: Stocks can be volatile, and their prices can fluctuate widely due to market conditions, economic factors, or company-specific news. Diversifying your investments can help mitigate this volatility.\\n\\n3. **Risk Tolerance**: Depending on your personal financial situation and risk tolerance, investing in a single stock can be more speculative than conservative. It's essential to consider how much risk you are willing and able to take.\\n\\n4. **Investment Horizon**: If you are investing for long-term goals (like retirement), concentrating your funds in one stock could expose you to unnecessary risk. A diversified portfolio can help achieve more stable returns over time.\\n\\n5. **Opportunity Cost**: By investing in just one stock, you may miss out on potential gains from other investments, including bonds, mutual funds, or various sectors of the market that might perform better.\\n\\n6. **Emotional Investing**: Investing heavily in one stock can lead to emotional decision-making. If the stock declines in value, you may panic and make impulsive decisions that could undermine your long-term investment strategy.\\n\\nInstead of investing all your savings in a single stock, consider building a diversified portfolio that includes a mix of assets tailored to your risk tolerance, investment goals, and time horizon. This approach can help spread risk and potentially lead to more stable returns over time. If you are unsure, consulting with a financial advisor can provide personalized guidance based on your situation.\\n</Output>\\n<Rubric>\\nRESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\\nScore 1-5 where 5 is fully responsible advice.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "85e48bd2-e959-4df6-862b-9aba9026a7a9",
+        "latencyMs": 8745,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: Should I invest all my savings in a single stock?\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Investing all your savings in a single stock is generally not advisable for several reasons:\n\n1. **Lack of Diversification**: Putting all your money into one stock exposes you to the specific risks associated with that company. If the stock underperforms or if the company faces difficulties, you could incur significant losses.\n\n2. **Market Volatility**: Stocks can be volatile, and their prices can fluctuate widely due to market conditions, economic factors, or company-specific news. Diversifying your investments can help mitigate this volatility.\n\n3. **Risk Tolerance**: Depending on your personal financial situation and risk tolerance, investing in a single stock can be more speculative than conservative. It's essential to consider how much risk you are willing and able to take.\n\n4. **Investment Horizon**: If you are investing for long-term goals (like retirement), concentrating your funds in one stock could expose you to unnecessary risk. A diversified portfolio can help achieve more stable returns over time.\n\n5. **Opportunity Cost**: By investing in just one stock, you may miss out on potential gains from other investments, including bonds, mutual funds, or various sectors of the market that might perform better.\n\n6. **Emotional Investing**: Investing heavily in one stock can lead to emotional decision-making. If the stock declines in value, you may panic and make impulsive decisions that could undermine your long-term investment strategy.\n\nInstead of investing all your savings in a single stock, consider building a diversified portfolio that includes a mix of assets tailored to your risk tolerance, investment goals, and time horizon. This approach can help spread risk and potentially lead to more stable returns over time. If you are unsure, consulting with a financial advisor can provide personalized guidance based on your situation.",
+          "tokenUsage": {
+            "total": 382,
+            "prompt": 31,
+            "completion": 351,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 8745,
+          "finishReason": "stop",
+          "cost": 0.00021525,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "Should I invest all my savings in a single stock?"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "RISK DISCLOSURE: Does the response warn against concentration risk?\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\nScore 1-5 where 5 is fully responsible advice.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "question": "Should I invest all my savings in a single stock?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.0037575,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 1298,
+            "prompt": 1154,
+            "completion": 144,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "RISK DISCLOSURE: Does the response warn against concentration risk?\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The response explicitly warns against concentration risk by discussing the risks of investing in a single stock. It also extensively covers the importance of diversification as a risk-reduction strategy. The explanation includes various considerations such as risk of volatility, lack of diversification, company-specific risks, long-term growth and stability, and the emotional impact of concentration risk. It also advises consulting financial advisors, demonstrating excellent risk awareness.",
+              "tokensUsed": {
+                "total": 674,
+                "prompt": 579,
+                "completion": 95,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nInvesting all your savings in a single stock is generally not advisable due to the inherent risks associated with lack of diversification. Here are some considerations to keep in mind:\\n\\n1. **Risk of Volatility**: Individual stocks can be highly volatile and subject to sharp price movements due to company-specific news, industry changes, or broader market fluctuations. Investing all your money in one stock exposes you to significant risk if that company's performance deteriorates.\\n\\n2. **Lack of Diversification**: Diversification helps reduce the risk by spreading your investments across different assets or sectors. This way, a poor performance in one investment can potentially be offset by better performances in others.\\n\\n3. **Company-Specific Risks**: Every company faces unique risks related to its operations, management, competitive position, and external factors like regulation. Concentrating your savings in one stock makes your financial future heavily dependent on that company's success.\\n\\n4. **Long-term Growth and Stability**: A diversified portfolio typically provides a more stable return over the long term compared to a non-diversified one. It balances high-risk, high-reward investments with more stable ones.\\n\\n5. **Emotional Impact**: Seeing significant fluctuations in your entire investment portfolio due to the performance of one stock can be stressful and lead to impulsive decisions that might not align with your long-term financial goals.\\n\\n6. **Consult Financial Advisors**: Before making significant investment decisions, it is often wise to consult with financial advisors or investment professionals who can provide personalized advice based on your financial situation, risk tolerance, and investment goals.\\n\\nUltimately, while some individuals have made substantial gains investing in single stocks, the strategy carries a high level of risk that may not align with the financial goals and risk tolerance of most investors. A balanced and diversified investment approach is usually more appropriate for preserving and growing wealth over time.\\n</Output>\\n<Rubric>\\nRISK DISCLOSURE: Does the response warn against concentration risk?\\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\nScore 1-5 where 5 is fully responsible advice.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The output provides balanced and prudent financial advice, emphasizing the risks of investing in a single stock and the benefits of diversification, which aligns with typical guidance from licensed financial advisors.",
+              "tokensUsed": {
+                "total": 624,
+                "prompt": 575,
+                "completion": 49,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nInvesting all your savings in a single stock is generally not advisable due to the inherent risks associated with lack of diversification. Here are some considerations to keep in mind:\\n\\n1. **Risk of Volatility**: Individual stocks can be highly volatile and subject to sharp price movements due to company-specific news, industry changes, or broader market fluctuations. Investing all your money in one stock exposes you to significant risk if that company's performance deteriorates.\\n\\n2. **Lack of Diversification**: Diversification helps reduce the risk by spreading your investments across different assets or sectors. This way, a poor performance in one investment can potentially be offset by better performances in others.\\n\\n3. **Company-Specific Risks**: Every company faces unique risks related to its operations, management, competitive position, and external factors like regulation. Concentrating your savings in one stock makes your financial future heavily dependent on that company's success.\\n\\n4. **Long-term Growth and Stability**: A diversified portfolio typically provides a more stable return over the long term compared to a non-diversified one. It balances high-risk, high-reward investments with more stable ones.\\n\\n5. **Emotional Impact**: Seeing significant fluctuations in your entire investment portfolio due to the performance of one stock can be stressful and lead to impulsive decisions that might not align with your long-term financial goals.\\n\\n6. **Consult Financial Advisors**: Before making significant investment decisions, it is often wise to consult with financial advisors or investment professionals who can provide personalized advice based on your financial situation, risk tolerance, and investment goals.\\n\\nUltimately, while some individuals have made substantial gains investing in single stocks, the strategy carries a high level of risk that may not align with the financial goals and risk tolerance of most investors. A balanced and diversified investment approach is usually more appropriate for preserving and growing wealth over time.\\n</Output>\\n<Rubric>\\nRESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\\nScore 1-5 where 5 is fully responsible advice.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "80c2edec-df48-42d1-b2e4-ad62ea001aeb",
+        "latencyMs": 13529,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: Should I invest all my savings in a single stock?\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "Investing all your savings in a single stock is generally not advisable due to the inherent risks associated with lack of diversification. Here are some considerations to keep in mind:\n\n1. **Risk of Volatility**: Individual stocks can be highly volatile and subject to sharp price movements due to company-specific news, industry changes, or broader market fluctuations. Investing all your money in one stock exposes you to significant risk if that company's performance deteriorates.\n\n2. **Lack of Diversification**: Diversification helps reduce the risk by spreading your investments across different assets or sectors. This way, a poor performance in one investment can potentially be offset by better performances in others.\n\n3. **Company-Specific Risks**: Every company faces unique risks related to its operations, management, competitive position, and external factors like regulation. Concentrating your savings in one stock makes your financial future heavily dependent on that company's success.\n\n4. **Long-term Growth and Stability**: A diversified portfolio typically provides a more stable return over the long term compared to a non-diversified one. It balances high-risk, high-reward investments with more stable ones.\n\n5. **Emotional Impact**: Seeing significant fluctuations in your entire investment portfolio due to the performance of one stock can be stressful and lead to impulsive decisions that might not align with your long-term financial goals.\n\n6. **Consult Financial Advisors**: Before making significant investment decisions, it is often wise to consult with financial advisors or investment professionals who can provide personalized advice based on your financial situation, risk tolerance, and investment goals.\n\nUltimately, while some individuals have made substantial gains investing in single stocks, the strategy carries a high level of risk that may not align with the financial goals and risk tolerance of most investors. A balanced and diversified investment approach is usually more appropriate for preserving and growing wealth over time.",
+          "tokenUsage": {
+            "total": 399,
+            "prompt": 31,
+            "completion": 368,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 13529,
+          "finishReason": "stop",
+          "cost": 0.0037575,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "Should I invest all my savings in a single stock?"
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "RISK DISCLOSURE: Does the response warn against concentration risk?\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\nScore 1-5 where 5 is fully responsible advice.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 1,
+        "vars": {
+          "question": "Should I invest all my savings in a single stock?"
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.00031424999999999997,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 1600,
+            "prompt": 1460,
+            "completion": 140,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "ACCURACY: Are the definitions correct?\nSystematic = market-wide, cannot be diversified away\nUnsystematic = company-specific, can be diversified\nScore 1-5 where 5 is completely accurate.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The definitions accurately describe systematic risk as market-wide and not diversifiable, and unsystematic risk as company-specific and can be diversified. All aspects align with the criteria specified.",
+              "tokensUsed": {
+                "total": 790,
+                "prompt": 738,
+                "completion": 52,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nSystematic risk and unsystematic risk are two key concepts in the field of finance that describe different types of risks associated with investments. Understanding the distinction between them is crucial for investors and financial analysts when evaluating potential returns and managing portfolio risk.\\n\\n### Systematic Risk\\n\\n1. **Definition**: Systematic risk, also known as market risk, refers to the risk inherent to the entire market or a specific segment of the market. It cannot be eliminated through diversification because it affects all investments to some degree.\\n\\n2. **Causes**: This type of risk is caused by factors that impact the overall economy or financial markets, such as:\\n   - Economic recessions\\n   - Changes in interest rates\\n   - Political instability\\n   - Natural disasters\\n   - Global events (e.g., pandemics, wars)\\n\\n3. **Examples**: A decline in the stock market due to economic downturns affects nearly all stocks, regardless of the company's fundamentals.\\n\\n4. **Measurement**: Systematic risk is commonly measured using beta (β), which quantifies the sensitivity of an asset's returns to market movements. A beta greater than 1 indicates higher volatility than the market, while a beta less than 1 indicates lower volatility.\\n\\n### Unsystematic Risk\\n\\n1. **Definition**: Unsystematic risk, also known as specific or idiosyncratic risk, pertains to risks that are unique to a particular company or industry. Unlike systematic risk, it can be mitigated or eliminated through diversification.\\n\\n2. **Causes**: This risk arises from factors that are specific to a company or industry, such as:\\n   - Management decisions\\n   - Company financial performance\\n   - Legal issues\\n   - Product recalls\\n   - Industry competition\\n\\n3. **Examples**: If a company faces a lawsuit that adversely affects its stock price, this risk is specific to that company and does not necessarily impact the broader market.\\n\\n4. **Management**: Investors can reduce unsystematic risk by diversifying their portfolios—investing in a variety of assets across different industries or sectors, thereby reducing the impact of any single investment's poor performance.\\n\\n### Summary\\n\\nIn summary, the key difference between systematic and unsystematic risk lies in their nature and how they can be managed. Systematic risk is related to broad market factors that cannot be avoided through diversification, while unsystematic risk is specific to individual investments and can be mitigated by holding a well-diversified portfolio. Understanding both types of risk helps investors make informed decisions and better manage their investment strategies.\\n</Output>\\n<Rubric>\\nACCURACY: Are the definitions correct?\\nSystematic = market-wide, cannot be diversified away\\nUnsystematic = company-specific, can be diversified\\nScore 1-5 where 5 is completely accurate.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "EXAMPLES: Does the response give helpful examples of each type?\nScore 1-5 where 5 includes clear, relevant examples.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The response provides clear and relevant examples for both systematic and unsystematic risk. For systematic risk, an example involving a decline in the stock market due to economic downturns is provided. For unsystematic risk, an example involving a company facing a lawsuit impacting its stock price is mentioned. These examples effectively illustrate the differences between the two types of risks.",
+              "tokensUsed": {
+                "total": 810,
+                "prompt": 722,
+                "completion": 88,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nSystematic risk and unsystematic risk are two key concepts in the field of finance that describe different types of risks associated with investments. Understanding the distinction between them is crucial for investors and financial analysts when evaluating potential returns and managing portfolio risk.\\n\\n### Systematic Risk\\n\\n1. **Definition**: Systematic risk, also known as market risk, refers to the risk inherent to the entire market or a specific segment of the market. It cannot be eliminated through diversification because it affects all investments to some degree.\\n\\n2. **Causes**: This type of risk is caused by factors that impact the overall economy or financial markets, such as:\\n   - Economic recessions\\n   - Changes in interest rates\\n   - Political instability\\n   - Natural disasters\\n   - Global events (e.g., pandemics, wars)\\n\\n3. **Examples**: A decline in the stock market due to economic downturns affects nearly all stocks, regardless of the company's fundamentals.\\n\\n4. **Measurement**: Systematic risk is commonly measured using beta (β), which quantifies the sensitivity of an asset's returns to market movements. A beta greater than 1 indicates higher volatility than the market, while a beta less than 1 indicates lower volatility.\\n\\n### Unsystematic Risk\\n\\n1. **Definition**: Unsystematic risk, also known as specific or idiosyncratic risk, pertains to risks that are unique to a particular company or industry. Unlike systematic risk, it can be mitigated or eliminated through diversification.\\n\\n2. **Causes**: This risk arises from factors that are specific to a company or industry, such as:\\n   - Management decisions\\n   - Company financial performance\\n   - Legal issues\\n   - Product recalls\\n   - Industry competition\\n\\n3. **Examples**: If a company faces a lawsuit that adversely affects its stock price, this risk is specific to that company and does not necessarily impact the broader market.\\n\\n4. **Management**: Investors can reduce unsystematic risk by diversifying their portfolios—investing in a variety of assets across different industries or sectors, thereby reducing the impact of any single investment's poor performance.\\n\\n### Summary\\n\\nIn summary, the key difference between systematic and unsystematic risk lies in their nature and how they can be managed. Systematic risk is related to broad market factors that cannot be avoided through diversification, while unsystematic risk is specific to individual investments and can be mitigated by holding a well-diversified portfolio. Understanding both types of risk helps investors make informed decisions and better manage their investment strategies.\\n</Output>\\n<Rubric>\\nEXAMPLES: Does the response give helpful examples of each type?\\nScore 1-5 where 5 includes clear, relevant examples.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "99ffb0e8-1c03-4cbc-96e0-3efc6c2c0b60",
+        "latencyMs": 12476,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: Explain the difference between systematic and unsystematic risk.\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 0,
+        "provider": {
+          "id": "openai:gpt-4o-mini",
+          "label": ""
+        },
+        "response": {
+          "output": "Systematic risk and unsystematic risk are two key concepts in the field of finance that describe different types of risks associated with investments. Understanding the distinction between them is crucial for investors and financial analysts when evaluating potential returns and managing portfolio risk.\n\n### Systematic Risk\n\n1. **Definition**: Systematic risk, also known as market risk, refers to the risk inherent to the entire market or a specific segment of the market. It cannot be eliminated through diversification because it affects all investments to some degree.\n\n2. **Causes**: This type of risk is caused by factors that impact the overall economy or financial markets, such as:\n   - Economic recessions\n   - Changes in interest rates\n   - Political instability\n   - Natural disasters\n   - Global events (e.g., pandemics, wars)\n\n3. **Examples**: A decline in the stock market due to economic downturns affects nearly all stocks, regardless of the company's fundamentals.\n\n4. **Measurement**: Systematic risk is commonly measured using beta (β), which quantifies the sensitivity of an asset's returns to market movements. A beta greater than 1 indicates higher volatility than the market, while a beta less than 1 indicates lower volatility.\n\n### Unsystematic Risk\n\n1. **Definition**: Unsystematic risk, also known as specific or idiosyncratic risk, pertains to risks that are unique to a particular company or industry. Unlike systematic risk, it can be mitigated or eliminated through diversification.\n\n2. **Causes**: This risk arises from factors that are specific to a company or industry, such as:\n   - Management decisions\n   - Company financial performance\n   - Legal issues\n   - Product recalls\n   - Industry competition\n\n3. **Examples**: If a company faces a lawsuit that adversely affects its stock price, this risk is specific to that company and does not necessarily impact the broader market.\n\n4. **Management**: Investors can reduce unsystematic risk by diversifying their portfolios—investing in a variety of assets across different industries or sectors, thereby reducing the impact of any single investment's poor performance.\n\n### Summary\n\nIn summary, the key difference between systematic and unsystematic risk lies in their nature and how they can be managed. Systematic risk is related to broad market factors that cannot be avoided through diversification, while unsystematic risk is specific to individual investments and can be mitigated by holding a well-diversified portfolio. Understanding both types of risk helps investors make informed decisions and better manage their investment strategies.",
+          "tokenUsage": {
+            "total": 547,
+            "prompt": 31,
+            "completion": 516,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 12476,
+          "finishReason": "stop",
+          "cost": 0.00031424999999999997,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "Explain the difference between systematic and unsystematic risk."
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "ACCURACY: Are the definitions correct?\nSystematic = market-wide, cannot be diversified away\nUnsystematic = company-specific, can be diversified\nScore 1-5 where 5 is completely accurate.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "EXAMPLES: Does the response give helpful examples of each type?\nScore 1-5 where 5 includes clear, relevant examples.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "question": "Explain the difference between systematic and unsystematic risk."
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      },
+      {
+        "cost": 0.005257500000000001,
+        "gradingResult": {
+          "pass": true,
+          "score": 5,
+          "reason": "All assertions passed",
+          "namedScores": {},
+          "tokensUsed": {
+            "total": 1618,
+            "prompt": 1464,
+            "completion": 154,
+            "cached": 0,
+            "numRequests": 2
+          },
+          "componentResults": [
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "ACCURACY: Are the definitions correct?\nSystematic = market-wide, cannot be diversified away\nUnsystematic = company-specific, can be diversified\nScore 1-5 where 5 is completely accurate.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The provided definitions for systematic and unsystematic risk align with the standard understanding in finance: systematic risk is market-wide and cannot be diversified away, while unsystematic risk is company-specific and can be diversified.",
+              "tokensUsed": {
+                "total": 802,
+                "prompt": 740,
+                "completion": 62,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nSystematic and unsystematic risks are two fundamental concepts in finance that distinguish different sources of risk affecting investments. Understanding these concepts is critical for investors to manage and mitigate risk effectively.\\n\\n### Systematic Risk:\\n\\n**Definition**: Systematic risk, also known as market risk or non-diversifiable risk, refers to the risk inherent to the entire market or a market segment. It is the risk that affects all companies, regardless of the specific industry or region.\\n\\n**Causes**: Systematic risk is caused by factors that affect the broader economy or financial markets, such as:\\n- Economic recessions or booms\\n- Changes in interest rates\\n- Inflation or deflation\\n- Political instability or geopolitical events\\n- Natural disasters or pandemics\\n\\n**Characteristics**:\\n- **Unavoidable**: Since systematic risk impacts all companies across the board, it cannot be eliminated through diversification.\\n- **Measurable**: This type of risk is often measured by beta (β), which indicates the sensitivity of a stock or portfolio to market movements.\\n\\n**Examples**:\\n- A decline in the stock market due to an economic downturn.\\n- Market-wide rallies driven by strong GDP growth.\\n\\n### Unsystematic Risk:\\n\\n**Definition**: Unsystematic risk, also known as specific risk, idiosyncratic risk, or diversifiable risk, is the risk that affects a particular company or industry. It arises from factors specific to a business or industry.\\n\\n**Causes**: Unsystematic risk is driven by factors unique to a specific company or industry, such as:\\n- Management decisions\\n- Product recalls or failures\\n- Financial mismanagement or fraud\\n- Changes in consumer preferences specific to a product\\n\\n**Characteristics**:\\n- **Avoidable**: Unlike systematic risk, unsystematic risk can be mitigated or eliminated through diversification. By holding a diversified portfolio, the negative impact of a poor-performing investment can be offset by other better-performing investments.\\n- **Unique**: It is unique to a particular company or industry, with no impact on the broader market.\\n\\n**Examples**:\\n- A pharmaceutical company facing litigation due to a faulty product.\\n- A technological firm experiencing a cyber-attack.\\n\\nIn summary, systematic risk affects the entire market or a large part of it and cannot be diversified away, while unsystematic risk is specific to individual companies or industries and can be reduced or eliminated through diversification. Investors can manage their exposure to unsystematic risk by building a well-diversified portfolio, but they must be wary of systematic risk as it is inherent in all investments.\\n</Output>\\n<Rubric>\\nACCURACY: Are the definitions correct?\\nSystematic = market-wide, cannot be diversified away\\nUnsystematic = company-specific, can be diversified\\nScore 1-5 where 5 is completely accurate.\\n\\n</Rubric>\"}]"
+              }
+            },
+            {
+              "assertion": {
+                "type": "llm-rubric",
+                "value": "EXAMPLES: Does the response give helpful examples of each type?\nScore 1-5 where 5 includes clear, relevant examples.\n"
+              },
+              "pass": true,
+              "score": 5,
+              "reason": "The response provides clear and relevant examples for both systematic and unsystematic risk. For systematic risk, it includes examples such as a decline in the stock market due to an economic downturn and market-wide rallies driven by strong GDP growth. For unsystematic risk, it provides examples such as a pharmaceutical company facing litigation due to a faulty product and a technological firm experiencing a cyber-attack.",
+              "tokensUsed": {
+                "total": 816,
+                "prompt": 724,
+                "completion": 92,
+                "cached": 0,
+                "numRequests": 1,
+                "completionDetails": {
+                  "reasoning": 0,
+                  "acceptedPrediction": 0,
+                  "rejectedPrediction": 0
+                }
+              },
+              "metadata": {
+                "renderedGradingPrompt": "[{\"role\":\"system\",\"content\":\"You are grading output according to a user-specified rubric. If the statement in the rubric is true, then the output passes the test. You respond with a JSON object with this structure: {reason: string, pass: boolean, score: number}\\n\\nExamples:\\n\\n<Output>Hello world</Output>\\n<Rubric>Content contains a greeting</Rubric>\\n{\\\"reason\\\": \\\"the content contains the word 'Hello'\\\", \\\"pass\\\": true, \\\"score\\\": 1.0}\\n\\n<Output>Avast ye swabs, repel the invaders!</Output>\\n<Rubric>Does not speak like a pirate</Rubric>\\n{\\\"reason\\\": \\\"'avast ye' is a common pirate term\\\", \\\"pass\\\": false, \\\"score\\\": 0.0}\"},{\"role\":\"user\",\"content\":\"<Output>\\nSystematic and unsystematic risks are two fundamental concepts in finance that distinguish different sources of risk affecting investments. Understanding these concepts is critical for investors to manage and mitigate risk effectively.\\n\\n### Systematic Risk:\\n\\n**Definition**: Systematic risk, also known as market risk or non-diversifiable risk, refers to the risk inherent to the entire market or a market segment. It is the risk that affects all companies, regardless of the specific industry or region.\\n\\n**Causes**: Systematic risk is caused by factors that affect the broader economy or financial markets, such as:\\n- Economic recessions or booms\\n- Changes in interest rates\\n- Inflation or deflation\\n- Political instability or geopolitical events\\n- Natural disasters or pandemics\\n\\n**Characteristics**:\\n- **Unavoidable**: Since systematic risk impacts all companies across the board, it cannot be eliminated through diversification.\\n- **Measurable**: This type of risk is often measured by beta (β), which indicates the sensitivity of a stock or portfolio to market movements.\\n\\n**Examples**:\\n- A decline in the stock market due to an economic downturn.\\n- Market-wide rallies driven by strong GDP growth.\\n\\n### Unsystematic Risk:\\n\\n**Definition**: Unsystematic risk, also known as specific risk, idiosyncratic risk, or diversifiable risk, is the risk that affects a particular company or industry. It arises from factors specific to a business or industry.\\n\\n**Causes**: Unsystematic risk is driven by factors unique to a specific company or industry, such as:\\n- Management decisions\\n- Product recalls or failures\\n- Financial mismanagement or fraud\\n- Changes in consumer preferences specific to a product\\n\\n**Characteristics**:\\n- **Avoidable**: Unlike systematic risk, unsystematic risk can be mitigated or eliminated through diversification. By holding a diversified portfolio, the negative impact of a poor-performing investment can be offset by other better-performing investments.\\n- **Unique**: It is unique to a particular company or industry, with no impact on the broader market.\\n\\n**Examples**:\\n- A pharmaceutical company facing litigation due to a faulty product.\\n- A technological firm experiencing a cyber-attack.\\n\\nIn summary, systematic risk affects the entire market or a large part of it and cannot be diversified away, while unsystematic risk is specific to individual companies or industries and can be reduced or eliminated through diversification. Investors can manage their exposure to unsystematic risk by building a well-diversified portfolio, but they must be wary of systematic risk as it is inherent in all investments.\\n</Output>\\n<Rubric>\\nEXAMPLES: Does the response give helpful examples of each type?\\nScore 1-5 where 5 includes clear, relevant examples.\\n\\n</Rubric>\"}]"
+              }
+            }
+          ]
+        },
+        "id": "6a4dedbc-4873-40a4-ae2d-b184bcfc9cec",
+        "latencyMs": 14831,
+        "namedScores": {},
+        "prompt": {
+          "raw": "You are a financial analyst. Answer the following question.\n\nQuestion: Explain the difference between systematic and unsystematic risk.\n",
+          "label": "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n",
+          "config": {
+            "provider": "openai:gpt-4o"
+          }
+        },
+        "promptId": "83864bc57762f76927f02e942598c92168f3b71f78054edb9c7a33048e098121",
+        "promptIdx": 1,
+        "provider": {
+          "id": "openai:gpt-4o",
+          "label": ""
+        },
+        "response": {
+          "output": "Systematic and unsystematic risks are two fundamental concepts in finance that distinguish different sources of risk affecting investments. Understanding these concepts is critical for investors to manage and mitigate risk effectively.\n\n### Systematic Risk:\n\n**Definition**: Systematic risk, also known as market risk or non-diversifiable risk, refers to the risk inherent to the entire market or a market segment. It is the risk that affects all companies, regardless of the specific industry or region.\n\n**Causes**: Systematic risk is caused by factors that affect the broader economy or financial markets, such as:\n- Economic recessions or booms\n- Changes in interest rates\n- Inflation or deflation\n- Political instability or geopolitical events\n- Natural disasters or pandemics\n\n**Characteristics**:\n- **Unavoidable**: Since systematic risk impacts all companies across the board, it cannot be eliminated through diversification.\n- **Measurable**: This type of risk is often measured by beta (β), which indicates the sensitivity of a stock or portfolio to market movements.\n\n**Examples**:\n- A decline in the stock market due to an economic downturn.\n- Market-wide rallies driven by strong GDP growth.\n\n### Unsystematic Risk:\n\n**Definition**: Unsystematic risk, also known as specific risk, idiosyncratic risk, or diversifiable risk, is the risk that affects a particular company or industry. It arises from factors specific to a business or industry.\n\n**Causes**: Unsystematic risk is driven by factors unique to a specific company or industry, such as:\n- Management decisions\n- Product recalls or failures\n- Financial mismanagement or fraud\n- Changes in consumer preferences specific to a product\n\n**Characteristics**:\n- **Avoidable**: Unlike systematic risk, unsystematic risk can be mitigated or eliminated through diversification. By holding a diversified portfolio, the negative impact of a poor-performing investment can be offset by other better-performing investments.\n- **Unique**: It is unique to a particular company or industry, with no impact on the broader market.\n\n**Examples**:\n- A pharmaceutical company facing litigation due to a faulty product.\n- A technological firm experiencing a cyber-attack.\n\nIn summary, systematic risk affects the entire market or a large part of it and cannot be diversified away, while unsystematic risk is specific to individual companies or industries and can be reduced or eliminated through diversification. Investors can manage their exposure to unsystematic risk by building a well-diversified portfolio, but they must be wary of systematic risk as it is inherent in all investments.",
+          "tokenUsage": {
+            "total": 549,
+            "prompt": 31,
+            "completion": 518,
+            "numRequests": 1,
+            "completionDetails": {
+              "reasoning": 0,
+              "acceptedPrediction": 0,
+              "rejectedPrediction": 0
+            }
+          },
+          "cached": false,
+          "latencyMs": 14831,
+          "finishReason": "stop",
+          "cost": 0.005257500000000001,
+          "guardrails": {
+            "flagged": false
+          }
+        },
+        "score": 5,
+        "success": true,
+        "testCase": {
+          "vars": {
+            "question": "Explain the difference between systematic and unsystematic risk."
+          },
+          "assert": [
+            {
+              "type": "llm-rubric",
+              "value": "ACCURACY: Are the definitions correct?\nSystematic = market-wide, cannot be diversified away\nUnsystematic = company-specific, can be diversified\nScore 1-5 where 5 is completely accurate.\n"
+            },
+            {
+              "type": "llm-rubric",
+              "value": "EXAMPLES: Does the response give helpful examples of each type?\nScore 1-5 where 5 includes clear, relevant examples.\n"
+            }
+          ],
+          "options": {
+            "provider": "openai:gpt-4o"
+          },
+          "metadata": {}
+        },
+        "testIdx": 2,
+        "vars": {
+          "question": "Explain the difference between systematic and unsystematic risk."
+        },
+        "metadata": {
+          "_promptfooFileMetadata": {}
+        },
+        "failureReason": 0
+      }
+    ],
+    "stats": {
+      "successes": 6,
+      "failures": 0,
+      "errors": 0,
+      "tokenUsage": {
+        "prompt": 184,
+        "completion": 2114,
+        "cached": 0,
+        "total": 2298,
+        "numRequests": 6,
+        "completionDetails": {
+          "reasoning": 0,
+          "acceptedPrediction": 0,
+          "rejectedPrediction": 0
+        },
+        "assertions": {
+          "total": 7485,
+          "prompt": 6748,
+          "completion": 737,
+          "cached": 0,
+          "numRequests": 0,
+          "completionDetails": {
+            "reasoning": 0,
+            "acceptedPrediction": 0,
+            "rejectedPrediction": 0
+          }
+        }
+      },
+      "durationMs": 24625
+    }
+  },
+  "config": {
+    "description": "LLM-as-judge finance evaluation",
+    "prompts": [
+      "You are a financial analyst. Answer the following question.\n\nQuestion: {{question}}\n"
+    ],
+    "providers": [
+      "openai:gpt-4o-mini",
+      "openai:gpt-4o"
+    ],
+    "tests": [
+      {
+        "vars": {
+          "question": "What is the current yield formula for a bond?"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "ACCURACY: Is the formula correct (current yield = annual coupon / current price)?\nScore 1-5 where 5 is completely accurate.\n"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "COMPLETENESS: Does the response explain what each term means?\nScore 1-5 where 5 is fully complete.\n"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "question": "Should I invest all my savings in a single stock?"
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "RISK DISCLOSURE: Does the response warn against concentration risk?\nDoes it mention diversification? Score 1-5 where 5 means excellent risk awareness.\n"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?\nScore 1-5 where 5 is fully responsible advice.\n"
+          }
+        ]
+      },
+      {
+        "vars": {
+          "question": "Explain the difference between systematic and unsystematic risk."
+        },
+        "assert": [
+          {
+            "type": "llm-rubric",
+            "value": "ACCURACY: Are the definitions correct?\nSystematic = market-wide, cannot be diversified away\nUnsystematic = company-specific, can be diversified\nScore 1-5 where 5 is completely accurate.\n"
+          },
+          {
+            "type": "llm-rubric",
+            "value": "EXAMPLES: Does the response give helpful examples of each type?\nScore 1-5 where 5 includes clear, relevant examples.\n"
+          }
+        ]
+      }
+    ],
+    "defaultTest": {
+      "options": {
+        "provider": "openai:gpt-4o"
+      }
+    },
+    "outputPath": "results/promptfoo_results.json",
+    "extensions": []
+  },
+  "shareableUrl": null,
+  "metadata": {
+    "promptfooVersion": "0.120.16",
+    "nodeVersion": "v24.11.1",
+    "platform": "darwin",
+    "arch": "arm64",
+    "exportedAt": "2026-01-23T00:14:40.403Z",
+    "evaluationCreatedAt": "2026-01-23T00:14:15.716Z"
+  }
+}

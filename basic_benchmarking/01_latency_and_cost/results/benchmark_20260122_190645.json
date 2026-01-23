@@ -1,0 +1,80 @@
+[
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o-mini",
+    "model_name": "GPT-4o Mini",
+    "prompt_name": "current_yield",
+    "prompt_text": "What is the current yield formula for a bond? Explain briefly.",
+    "cost_usd": 6.5e-05,
+    "output": "The current yield formula for a bond is calculated as:\n\n**Current Yield = (Annual Coupon Payment / Current Market Price) x 100**\n\nWhere:\n- **Annual Coupon Payment** is the total interest payment the bondholder receives each year.\n- **Current Market Price** is the bond's price in the market at the time of calculation.\n\nThis formula provides a measure of the income generated from the bond as a percentage of its current market price, helping investors assess the yield in relation to market conditions.",
+    "latency_seconds": 6.972,
+    "input_tokens": 33,
+    "output_tokens": 100,
+    "total_tokens": 133
+  },
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o-mini",
+    "model_name": "GPT-4o Mini",
+    "prompt_name": "duration_convexity",
+    "prompt_text": "Explain the difference between duration and convexity in 2-3 sentences.",
+    "cost_usd": 5.4e-05,
+    "output": "Duration measures a bond's sensitivity to interest rate changes, reflecting the average time it takes for cash flows to be received, typically expressed in years. Convexity, on the other hand, measures the curvature of the relationship between bond prices and interest rates, indicating how the duration of a bond changes with different interest rate levels. Together, these metrics help assess interest rate risk and price volatility of fixed-income securities.",
+    "latency_seconds": 4.577,
+    "input_tokens": 35,
+    "output_tokens": 82,
+    "total_tokens": 117
+  },
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o-mini",
+    "model_name": "GPT-4o Mini",
+    "prompt_name": "sharpe_ratio",
+    "prompt_text": "A portfolio has annual return of 12%, risk-free rate is 3%, and standard deviation is 15%. Calculate the Sharpe ratio and show your work.",
+    "cost_usd": 0.000135,
+    "output": "The Sharpe Ratio is calculated using the formula:\n\n\\[\n\\text{Sharpe Ratio} = \\frac{R_p - R_f}{\\sigma}\n\\]\n\nWhere:\n- \\( R_p \\) = Portfolio return\n- \\( R_f \\) = Risk-free rate\n- \\( \\sigma \\) = Standard deviation of the portfolio return\n\nGiven:\n- \\( R_p = 12\\% = 0.12 \\)\n- \\( R_f = 3\\% = 0.03 \\)\n- \\( \\sigma = 15\\% = 0.15 \\)\n\nNow, we can plug in the values into the formula:\n\n\\[\n\\text{Sharpe Ratio} = \\frac{0.12 - 0.03}{0.15}\n\\]\n\\[\n\\text{Sharpe Ratio} = \\frac{0.09}{0.15}\n\\]\n\\[\n\\text{Sharpe Ratio} = 0.6\n\\]\n\nThe Sharpe Ratio is **0.6**.",
+    "latency_seconds": 8.396,
+    "input_tokens": 53,
+    "output_tokens": 212,
+    "total_tokens": 265
+  },
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o",
+    "model_name": "GPT-4o",
+    "prompt_name": "current_yield",
+    "prompt_text": "What is the current yield formula for a bond? Explain briefly.",
+    "cost_usd": 0.001083,
+    "output": "The current yield of a bond is calculated using the formula:\n\n\\[ \\text{Current Yield} = \\frac{\\text{Annual Coupon Payment}}{\\text{Current Market Price of the Bond}} \\]\n\nThis formula expresses the income, in terms of the coupon interest, an investor can expect from the bond in relation to its current market price, not its face value. It provides an estimate of the yield investors would receive if they purchased the bond at its current price and held it for a year.",
+    "latency_seconds": 3.5,
+    "input_tokens": 33,
+    "output_tokens": 100,
+    "total_tokens": 133
+  },
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o",
+    "model_name": "GPT-4o",
+    "prompt_name": "duration_convexity",
+    "prompt_text": "Explain the difference between duration and convexity in 2-3 sentences.",
+    "cost_usd": 0.001187,
+    "output": "Duration measures the sensitivity of a bond's price to changes in interest rates, specifically indicating how much the bond's price is expected to change for a 1% change in interest rates. Convexity, on the other hand, measures the curvature in the relationship between bond prices and interest rates, capturing the change in duration as interest rates change and providing a more comprehensive assessment of interest rate risk. While duration estimates the linear price movement, convexity accounts for the non-linear price adjustments, improving the accuracy of price change predictions in response to rate variations.",
+    "latency_seconds": 3.607,
+    "input_tokens": 35,
+    "output_tokens": 110,
+    "total_tokens": 145
+  },
+  {
+    "timestamp": "2026-01-22T19:06:15.261916",
+    "model_id": "gpt-4o",
+    "model_name": "GPT-4o",
+    "prompt_name": "sharpe_ratio",
+    "prompt_text": "A portfolio has annual return of 12%, risk-free rate is 3%, and standard deviation is 15%. Calculate the Sharpe ratio and show your work.",
+    "cost_usd": 0.001643,
+    "output": "The Sharpe ratio is calculated using the formula:\n\n\\[ \\text{Sharpe Ratio} = \\frac{\\text{Portfolio Return} - \\text{Risk-Free Rate}}{\\text{Portfolio Standard Deviation}} \\]\n\nGiven:\n- Portfolio Return = 12% or 0.12\n- Risk-Free Rate = 3% or 0.03\n- Portfolio Standard Deviation = 15% or 0.15\n\nPlugging in these values:\n\n\\[ \\text{Sharpe Ratio} = \\frac{0.12 - 0.03}{0.15} = \\frac{0.09}{0.15} = 0.60 \\]\n\nTherefore, the Sharpe ratio is 0.60.",
+    "latency_seconds": 2.727,
+    "input_tokens": 53,
+    "output_tokens": 151,
+    "total_tokens": 204
+  }
+]

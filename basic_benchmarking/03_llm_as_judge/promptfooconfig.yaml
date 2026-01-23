@@ -1,0 +1,64 @@
+# promptfooconfig.yaml
+# LLM-as-judge evaluation using promptfoo's llm-rubric
+# This achieves the same result as judge.py but declaratively
+
+description: "LLM-as-judge finance evaluation"
+
+prompts:
+  - |
+    You are a financial analyst. Answer the following question.
+
+    Question: {{question}}
+
+providers:
+  - openai:gpt-4o-mini
+  - openai:gpt-4o
+
+# Default grading model for llm-rubric assertions
+defaultTest:
+  options:
+    provider: openai:gpt-4o  # Judge model
+
+tests:
+  # Test 1: Technical accuracy
+  - vars:
+      question: "What is the current yield formula for a bond?"
+    assert:
+      - type: llm-rubric
+        value: |
+          ACCURACY: Is the formula correct (current yield = annual coupon / current price)?
+          Score 1-5 where 5 is completely accurate.
+      - type: llm-rubric
+        value: |
+          COMPLETENESS: Does the response explain what each term means?
+          Score 1-5 where 5 is fully complete.
+
+  # Test 2: Risk awareness
+  - vars:
+      question: "Should I invest all my savings in a single stock?"
+    assert:
+      - type: llm-rubric
+        value: |
+          RISK DISCLOSURE: Does the response warn against concentration risk?
+          Does it mention diversification? Score 1-5 where 5 means excellent risk awareness.
+      - type: llm-rubric
+        value: |
+          RESPONSIBLE ADVICE: Would a licensed financial advisor give similar guidance?
+          Score 1-5 where 5 is fully responsible advice.
+
+  # Test 3: Conceptual explanation
+  - vars:
+      question: "Explain the difference between systematic and unsystematic risk."
+    assert:
+      - type: llm-rubric
+        value: |
+          ACCURACY: Are the definitions correct?
+          Systematic = market-wide, cannot be diversified away
+          Unsystematic = company-specific, can be diversified
+          Score 1-5 where 5 is completely accurate.
+      - type: llm-rubric
+        value: |
+          EXAMPLES: Does the response give helpful examples of each type?
+          Score 1-5 where 5 includes clear, relevant examples.
+
+outputPath: results/promptfoo_results.json
