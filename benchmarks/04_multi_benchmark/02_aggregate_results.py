@@ -35,7 +35,7 @@ def extract_scores(results: dict) -> dict[str, float]:
     try:
         all_results = results.get("results", {})
 
-        # GSM8K
+        # GSM8K - prefer strict-match (requires "#### answer" format) for accurate scoring
         if "gsm8k" in all_results:
             for metric in ["exact_match,strict-match", "exact_match,flexible-extract", "exact_match,none", "acc,none"]:
                 if metric in all_results["gsm8k"]:
@@ -132,14 +132,12 @@ def print_summary_table(all_scores: dict):
     # Data rows
     for model_name, scores in all_scores.items():
         row = f"{model_name:<20}"
-        model_scores = []
         for b in benchmarks:
             score = scores.get(b, 0)
-            model_scores.append(score)
             row += f"{score * 100:>11.1f}%"
-        # Only average non-zero scores
-        valid_scores = [s for s in model_scores if s > 0]
-        avg = np.mean(valid_scores) * 100 if valid_scores else 0
+        # Average over benchmarks that were actually run (present in scores dict)
+        attempted_scores = [scores[b] for b in benchmarks if b in scores]
+        avg = np.mean(attempted_scores) * 100 if attempted_scores else 0
         row += f"{avg:>11.1f}%"
         print(row)
 
@@ -157,9 +155,9 @@ def print_summary_table(all_scores: dict):
         winner = ranked[0][0] if ranked and ranked[0][1].get(benchmark, 0) > 0 else "N/A"
         print(f"{benchmark:<15}: {winner}")
 
-    # Overall winner
+    # Overall winner - average over benchmarks actually attempted
     avg_scores = {
-        model: np.mean([s for s in [scores.get(b, 0) for b in benchmarks] if s > 0])
+        model: np.mean([scores[b] for b in benchmarks if b in scores])
         for model, scores in all_scores.items()
     }
     overall_winner = max(avg_scores, key=avg_scores.get) if avg_scores else "N/A"

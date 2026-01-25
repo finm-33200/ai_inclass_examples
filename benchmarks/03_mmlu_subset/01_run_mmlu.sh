@@ -7,8 +7,8 @@
 
 set -e
 
-# Number of samples per subject (default 50)
-LIMIT=${1:-50}
+# Number of samples per subject (default 5 for quick demo)
+LIMIT=${1:-5}
 
 # Get script directory and repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -31,10 +31,10 @@ if [ -z "$OPENAI_API_KEY" ]; then
     exit 1
 fi
 
-# MMLU subjects to test (finance-relevant)
+# MMLU subject to test (single subject for quick demo)
 # Using mmlu_cot_llama_* for generation-based evaluation (API compatible)
 # Standard mmlu_* tasks require logprobs which API models don't support
-TASKS="mmlu_cot_llama_econometrics,mmlu_cot_llama_high_school_macroeconomics,mmlu_cot_llama_high_school_microeconomics,mmlu_cot_llama_college_mathematics,mmlu_cot_llama_college_computer_science,mmlu_cot_llama_professional_accounting"
+TASKS="mmlu_cot_llama_econometrics"
 
 # Models to benchmark
 MODELS=(
@@ -43,13 +43,13 @@ MODELS=(
     "qwen/qwen-2.5-7b-instruct:qwen-2.5-7b"
 )
 
-echo "MMLU Benchmark (Finance-Relevant Subjects)"
-echo "==========================================="
-echo "Subjects: econometrics, macroeconomics, microeconomics,"
-echo "          college_mathematics, college_computer_science,"
-echo "          professional_accounting"
-echo "Samples per subject: $LIMIT"
+echo "MMLU Benchmark (Quick Demo)"
+echo "==========================="
+echo "Subject: econometrics"
+echo "Samples: $LIMIT"
 echo "Models: ${#MODELS[@]}"
+echo ""
+echo "Expected runtime: ~1.5 minutes"
 echo ""
 
 # Create results directory
@@ -65,7 +65,7 @@ for MODEL_ENTRY in "${MODELS[@]}"; do
     echo "----------------------------------------"
 
     lm_eval --model openai-chat-completions \
-        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,tokenizer_backend=None \
+        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,num_concurrent=50,timeout=120,max_retries=3,tokenizer_backend=None \
         --tasks "$TASKS" \
         --limit "$LIMIT" \
         --apply_chat_template \

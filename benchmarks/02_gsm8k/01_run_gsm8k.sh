@@ -75,7 +75,7 @@ for MODEL_ENTRY in "${MODELS[@]}"; do
     fi
 
     lm_eval --model openai-chat-completions \
-        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,tokenizer_backend=None \
+        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,num_concurrent=50,timeout=120,max_retries=3,tokenizer_backend=None \
         --tasks gsm8k \
         $LIMIT_ARG \
         --apply_chat_template \

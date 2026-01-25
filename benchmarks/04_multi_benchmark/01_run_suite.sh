@@ -1,9 +1,7 @@
 #!/bin/bash
 # Run full benchmark suite on multiple models via OpenRouter
 #
-# Runs: GSM8K, MMLU (CoT subset), TruthfulQA (gen)
-#
-# Note: HellaSwag and TruthfulQA MC require logprobs which API models don't support
+# Runs: GSM8K, TruthfulQA, MMLU (CoT subset)
 #
 # Usage:
 #   ./01_run_suite.sh        # Run with 50 samples per benchmark (default)
@@ -11,8 +9,8 @@
 
 set -e
 
-# Number of samples per benchmark (default 50)
-LIMIT=${1:-50}
+# Number of samples per benchmark (default 5 for quick demo)
+LIMIT=${1:-5}
 
 # Get script directory and repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -35,10 +33,10 @@ if [ -z "$OPENAI_API_KEY" ]; then
     exit 1
 fi
 
-# All tasks to run (API-compatible only - generation-based tasks)
-# Note: Using CoT versions of MMLU and generation version of TruthfulQA
-# because standard versions require logprobs which API models don't support
-TASKS="gsm8k,truthfulqa_gen,mmlu_cot_llama_econometrics,mmlu_cot_llama_high_school_macroeconomics,mmlu_cot_llama_college_mathematics"
+# Tasks to run (3 benchmarks for quick demo)
+# Note: Using CoT/generation-based versions because standard versions require logprobs
+# HellaSwag requires logprobs so we use truthfulqa_gen instead
+TASKS="gsm8k,truthfulqa_gen,mmlu_cot_llama_econometrics"
 
 # Models to benchmark
 MODELS=(
@@ -47,13 +45,13 @@ MODELS=(
     "qwen/qwen-2.5-7b-instruct:qwen-2.5-7b"
 )
 
-echo "Full Benchmark Suite"
-echo "===================="
-echo "Benchmarks: GSM8K, TruthfulQA (gen), MMLU CoT (3 subjects)"
+echo "Multi-Benchmark Suite (Quick Demo)"
+echo "==================================="
+echo "Benchmarks: GSM8K, TruthfulQA, MMLU CoT (econometrics)"
 echo "Samples per benchmark: $LIMIT"
 echo "Models: ${#MODELS[@]}"
 echo ""
-echo "Estimated time: 5-15 minutes depending on API speed"
+echo "Expected runtime: ~2 minutes"
 echo ""
 
 # Create results directory
@@ -69,7 +67,7 @@ for MODEL_ENTRY in "${MODELS[@]}"; do
     echo "========================================"
 
     lm_eval --model openai-chat-completions \
-        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,tokenizer_backend=None \
+        --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,num_concurrent=50,timeout=120,max_retries=3,tokenizer_backend=None \
         --tasks "$TASKS" \
         --limit "$LIMIT" \
         --apply_chat_template \

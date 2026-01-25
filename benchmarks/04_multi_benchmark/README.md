@@ -1,45 +1,44 @@
-# 04 - Multi-Benchmark Suite
+# 04 - Multi-Benchmark Suite (Quick Demo)
 
-Run all API-compatible benchmarks together and create a comprehensive model comparison.
+Run multiple benchmarks together - a quick demo showing combined evaluation.
 
 ## What You'll Learn
 
-- Running multiple benchmarks in a single evaluation
-- Aggregating results across different capability dimensions
-- Creating a "model scorecard" visualization
+- Running multiple benchmarks in a single lm-eval call
+- Understanding different benchmark types (math reasoning vs knowledge)
 
-## Why Run Multiple Benchmarks?
+## Quick Demo Configuration
 
-Single benchmarks can be misleading. A model might excel at math (GSM8K) but struggle with factual accuracy (TruthfulQA). Running a suite gives you:
+This example is configured for fast in-class demonstration:
 
-1. **Balanced assessment** - see strengths and weaknesses
-2. **Task-specific insights** - which model for which use case
-3. **Confidence** - consistent patterns across benchmarks
+| Setting | Value |
+|---------|-------|
+| Benchmarks | GSM8K, TruthfulQA, MMLU (econometrics) |
+| Samples | 5 each |
+| Models | 3 (Llama 3.1, Gemma 2, Qwen 2.5) |
+| **Runtime** | ~20-30 seconds |
 
 ## Benchmarks Included
 
 | Benchmark | Tests | Finance Relevance |
 |-----------|-------|-------------------|
 | **GSM8K** | Math reasoning | Calculations, quantitative analysis |
-| **MMLU (CoT)** | Knowledge (3 subjects) | Economics, macroeconomics, math |
-| **TruthfulQA (gen)** | Factual accuracy | Avoiding hallucinations |
+| **TruthfulQA** | Factual accuracy | Avoiding hallucinations |
+| **MMLU (CoT)** | Knowledge | Economics, statistics |
 
-**Note**: HellaSwag and TruthfulQA MC require logprobs which API models don't support.
-For those benchmarks, use local HuggingFace models.
+**Note**: Additional benchmarks available in `05_parallel_models/`.
 
 ## How to Run
 
-### Step 1: Run full suite
+### Step 1: Run benchmarks
 
 ```bash
-# Run all benchmarks with 50 samples each (default)
+# Run quick demo (default 5 samples)
 ./01_run_suite.sh
 
 # Run with more samples
-./01_run_suite.sh 100
+./01_run_suite.sh 20
 ```
-
-This takes longer but runs everything in one go.
 
 ### Step 2: Aggregate results
 
@@ -47,14 +46,9 @@ This takes longer but runs everything in one go.
 python 02_aggregate_results.py
 ```
 
-Creates a bar chart and summary table.
-
 ## Cost Estimate
 
-| Samples | Est. Total Cost (3 models) |
-|---------|---------------------------|
-| 50 each | ~$0.10-0.20 |
-| 100 each | ~$0.20-0.40 |
+This quick demo costs ~$0.002 (negligible).
 
 ## Output
 
@@ -76,10 +70,9 @@ Based on your use case:
 
 ## Try It
 
-1. Run the full suite with 50 samples
-2. Look at the chart - which model has the most balanced performance?
-3. Which model would you choose for a financial chatbot? Why?
-4. What additional benchmarks might be useful for finance?
+1. Run the quick demo to verify setup
+2. Modify the script to add more benchmarks (e.g., `truthfulqa_gen`)
+3. For parallel model execution, see `05_parallel_models/`
 
 ## Resources
 

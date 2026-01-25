@@ -55,9 +55,10 @@ export OPENAI_API_KEY=$OPENROUTER_API_KEY
 
 # Run benchmark
 lm_eval --model openai-chat-completions \
-    --model_args model=meta-llama/llama-3.1-8b-instruct,base_url=https://openrouter.ai/api/v1 \
+    --model_args model=meta-llama/llama-3.1-8b-instruct,base_url=https://openrouter.ai/api/v1/chat/completions,num_concurrent=50,timeout=120,max_retries=3,tokenizer_backend=None \
     --tasks gsm8k \
     --limit 10 \
+    --apply_chat_template \
     --output_path results/
 ```
 
@@ -67,6 +68,9 @@ lm_eval --model openai-chat-completions \
 |----------|---------|
 | `--model openai-chat-completions` | Use OpenAI-compatible chat API |
 | `--model_args model=...,base_url=...` | Model name and API endpoint |
+| `num_concurrent=50` | Run 50 API requests in parallel (fast!) |
+| `timeout=120` | 2-minute timeout per request |
+| `max_retries=3` | Retry failed requests (handles rate limits) |
 | `--tasks gsm8k` | Which benchmark to run |
 | `--limit 10` | Only run 10 examples (for testing) |
 | `--output_path results/` | Where to save JSON results |

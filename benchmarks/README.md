@@ -33,9 +33,7 @@ Standardized LLM benchmarking using EleutherAI's `lm-evaluation-harness` - the i
 | [01_lm_eval_intro](01_lm_eval_intro/) | First benchmark in one command |
 | [02_gsm8k](02_gsm8k/) | Math reasoning benchmark (OpenAI's grade-school math) |
 | [03_mmlu_subset](03_mmlu_subset/) | Knowledge testing across finance-relevant subjects |
-| [04_hellaswag](04_hellaswag/) | Commonsense reasoning |
-| [05_truthfulqa](05_truthfulqa/) | Factual accuracy and hallucination resistance |
-| [06_multi_benchmark](06_multi_benchmark/) | Run full benchmark suite, aggregate results |
+| [04_multi_benchmark](04_multi_benchmark/) | Run multiple benchmarks together |
 
 ## Cost Estimates (100 samples × 3 cheap models)
 

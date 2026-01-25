@@ -1,33 +1,27 @@
-# 03 - MMLU Subset Benchmark
+# 03 - MMLU Subset Benchmark (Quick Demo)
 
-Test model knowledge across finance-relevant subjects using MMLU (Massive Multitask Language Understanding).
+Test model knowledge using MMLU (Massive Multitask Language Understanding) - a single-subject quick demo.
 
 ## What You'll Learn
 
-- Running MMLU on specific subject subsets
+- Running MMLU benchmarks via lm-eval
 - Understanding multiple-choice benchmarking with API models
-- Analyzing per-subject performance
+- Basic benchmark output format
+
+## Quick Demo Configuration
+
+This example is configured for fast in-class demonstration:
+
+| Setting | Value |
+|---------|-------|
+| Subject | `econometrics` |
+| Samples | 5 |
+| Models | 3 (Llama 3.1, Gemma 2, Qwen 2.5) |
+| **Runtime** | ~10-15 seconds |
 
 ## Why MMLU?
 
-MMLU is a comprehensive knowledge benchmark covering 57 subjects from STEM to humanities. For finance applications, relevant subjects include:
-
-- Economics (micro/macro)
-- Econometrics
-- Mathematics
-- Computer Science
-- Business Ethics
-
-## Subjects We Test
-
-| Subject | # Questions | Relevance |
-|---------|-------------|-----------|
-| `econometrics` | ~114 | Statistical methods for finance |
-| `high_school_macroeconomics` | ~390 | Economic fundamentals |
-| `high_school_microeconomics` | ~238 | Market behavior |
-| `college_mathematics` | ~100 | Quantitative foundations |
-| `college_computer_science` | ~100 | Tech skills for quant work |
-| `professional_accounting` | ~282 | Financial statements, auditing |
+MMLU is a comprehensive knowledge benchmark covering 57 subjects from STEM to humanities. The `econometrics` subject tests statistical methods relevant to finance.
 
 ## API Model Limitation
 
@@ -44,14 +38,14 @@ This is fine for learning and comparison, but for research-grade benchmarks, use
 
 ## How to Run
 
-### Step 1: Run benchmarks
+### Step 1: Run benchmark
 
 ```bash
-# Run all subjects (default 50 samples each)
+# Run quick demo (default 5 samples)
 ./01_run_mmlu.sh
 
 # Run with more samples
-./01_run_mmlu.sh 100
+./01_run_mmlu.sh 20
 ```
 
 ### Step 2: Analyze results
@@ -62,10 +56,7 @@ python 02_analyze_results.py
 
 ## Cost Estimate
 
-| Samples/Subject | Subjects | Est. Cost (3 models) |
-|-----------------|----------|---------------------|
-| 50 | 6 | ~$0.02-0.04 |
-| 100 | 6 | ~$0.04-0.08 |
+This quick demo costs ~$0.001 (negligible).
 
 ## Understanding MMLU Format
 
@@ -91,10 +82,9 @@ Results saved to `results/` with per-subject breakdowns:
 
 ## Try It
 
-1. Run with 50 samples to verify setup
-2. Which subjects do models perform best on?
-3. Is there a model that's particularly good at economics?
-4. Try adding `business_ethics` to the subject list
+1. Run the quick demo to verify setup
+2. Modify the script to add more subjects (e.g., `mmlu_cot_llama_high_school_macroeconomics`)
+3. For parallel model execution, see `05_parallel_models/`
 
 ## Resources
 

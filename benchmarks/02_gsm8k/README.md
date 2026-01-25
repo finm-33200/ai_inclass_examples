@@ -34,7 +34,7 @@ All ~$0.05-0.10 per 1M tokens via OpenRouter:
 ### Step 1: Run benchmarks
 
 ```bash
-# Quick demo (~20 seconds, 5 samples per model)
+# Quick demo (~10-15 seconds, 5 samples per model)
 ./01_run_gsm8k.sh
 
 # Fuller run (100 samples per model)

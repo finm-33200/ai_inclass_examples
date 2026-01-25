@@ -35,7 +35,7 @@ echo ""
 # Run the benchmark
 # Note: OpenRouter requires the full chat/completions URL
 lm_eval --model openai-chat-completions \
-    --model_args model=meta-llama/llama-3.1-8b-instruct,base_url=https://openrouter.ai/api/v1/chat/completions,tokenizer_backend=None \
+    --model_args model=meta-llama/llama-3.1-8b-instruct,base_url=https://openrouter.ai/api/v1/chat/completions,num_concurrent=50,timeout=120,max_retries=3,tokenizer_backend=None \
     --tasks gsm8k \
     --limit 10 \
     --apply_chat_template \
