@@ -2,13 +2,20 @@
 # Run GSM8K benchmark on multiple models via OpenRouter
 #
 # Usage:
-#   ./01_run_gsm8k.sh        # Run with 100 samples (default)
-#   ./01_run_gsm8k.sh 20     # Run with 20 samples (quick test)
+#   ./01_run_gsm8k.sh           # Quick demo (~20 sec, 5 samples)
+#   ./01_run_gsm8k.sh 100       # Fuller run (100 samples)
+#   ./01_run_gsm8k.sh all       # Full benchmark (all 1319 samples)
 
 set -e
 
-# Number of samples (default 100)
-LIMIT=${1:-100}
+# Parse argument: number, "all", or default to 5 for quick demo
+if [ -z "$1" ]; then
+    LIMIT=5
+elif [ "$1" = "all" ]; then
+    LIMIT=""  # Empty means no limit in lm_eval
+else
+    LIMIT=$1
+fi
 
 # Get script directory and repo root
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -40,7 +47,11 @@ MODELS=(
 
 echo "GSM8K Benchmark"
 echo "==============="
-echo "Samples per model: $LIMIT"
+if [ -z "$LIMIT" ]; then
+    echo "Samples per model: ALL (1319)"
+else
+    echo "Samples per model: $LIMIT"
+fi
 echo "Models: ${#MODELS[@]}"
 echo ""
 
@@ -57,10 +68,16 @@ for MODEL_ENTRY in "${MODELS[@]}"; do
     echo "Running: $MODEL"
     echo "----------------------------------------"
 
+    # Build limit argument (empty LIMIT means no --limit flag = run all)
+    LIMIT_ARG=""
+    if [ -n "$LIMIT" ]; then
+        LIMIT_ARG="--limit $LIMIT"
+    fi
+
     lm_eval --model openai-chat-completions \
         --model_args model="$MODEL",base_url=https://openrouter.ai/api/v1/chat/completions,tokenizer_backend=None \
         --tasks gsm8k \
-        --limit "$LIMIT" \
+        $LIMIT_ARG \
         --apply_chat_template \
         --output_path "$SCRIPT_DIR/results/$SHORTNAME/"
 

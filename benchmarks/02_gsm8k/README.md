@@ -34,11 +34,14 @@ All ~$0.05-0.10 per 1M tokens via OpenRouter:
 ### Step 1: Run benchmarks
 
 ```bash
-# Run all three models (takes a few minutes)
+# Quick demo (~20 seconds, 5 samples per model)
 ./01_run_gsm8k.sh
 
-# Or run with fewer samples for testing
-./01_run_gsm8k.sh 20
+# Fuller run (100 samples per model)
+./01_run_gsm8k.sh 100
+
+# Full benchmark (all 1319 samples)
+./01_run_gsm8k.sh all
 ```
 
 ### Step 2: Analyze results
@@ -53,7 +56,7 @@ This generates a bar chart comparing model accuracy.
 
 | Samples | Est. Cost (3 models) |
 |---------|---------------------|
-| 20 | ~$0.01 |
+| 5 (default) | ~$0.002 |
 | 100 | ~$0.03-0.05 |
 | Full (1319) | ~$0.30-0.50 |
 
@@ -111,10 +114,11 @@ The Stderr column shows uncertainty in your measurement:
 
 ## Try It
 
-1. Run with 20 samples to verify setup
+1. Run the quick demo (default) to verify setup
 2. Compare results across models - which does best?
-3. Try adding a 4th model (e.g., `mistralai/mistral-7b-instruct`)
-4. Examine the JSON output to see per-example results
+3. Run with 100 samples for more reliable results
+4. Try adding a 4th model (e.g., `mistralai/mistral-7b-instruct`)
+5. Examine the JSON output to see per-example results
 
 ## Connection to Finance
 
