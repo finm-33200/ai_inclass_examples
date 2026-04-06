@@ -1,4 +1,4 @@
-# 08 - Flawed Code
+# 08 - FlawedCode
 
 A **minimal Claude Code clone** in ~200 lines. Intentionally uses cheap models.
 
@@ -6,7 +6,7 @@ A **minimal Claude Code clone** in ~200 lines. Intentionally uses cheap models.
 
 ## What It Does
 
-Flawed Code is a REPL-based coding assistant with:
+FlawedCode is a REPL-based coding assistant with:
 - **read_file** - Read file contents
 - **write_file** - Create/modify files
 - **list_files** - Navigate directories
@@ -129,7 +129,7 @@ def run_python(code: str) -> str:
 
 ## What's NOT Included (vs Claude Code)
 
-| Feature | Claude Code | Flawed Code |
+| Feature | Claude Code | FlawedCode |
 |---------|-------------|-------------|
 | Multi-file edits | Yes | No |
 | Git integration | Yes | No |
@@ -161,7 +161,7 @@ MODEL = "anthropic/claude-3-haiku"  # $0.25/1M
 
 ## Finance Applications
 
-Use Flawed Code to:
+Use FlawedCode to:
 - Navigate quant codebases
 - Fix bugs in analysis scripts
 - Write data processing functions

@@ -116,6 +116,6 @@ Code execution enables:
 3. **Add libraries**: Install numpy, try asking for matrix operations
 4. **Security test**: What happens if you ask it to read /etc/passwd?
 
-## The Path to Flawed Code
+## The Path to FlawedCode
 
 This code execution capability is one of the core features we need for "flawed_code" (example 08). Combined with file operations (example 07), we'll have the basic building blocks of a coding assistant.

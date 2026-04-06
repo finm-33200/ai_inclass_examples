@@ -46,7 +46,7 @@ llm = ChatOpenAI(
 # AGENT
 # =============================================================================
 
-SYSTEM_PROMPT = """You are Flawed Code, a simple coding assistant.
+SYSTEM_PROMPT = """You are FlawedCode, a simple coding assistant.
 
 You have access to these tools:
 - read_file: Read file contents

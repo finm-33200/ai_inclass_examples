@@ -8,7 +8,7 @@ This section covers building AI agents from first principles through production-
 
 **Examples 04-08** introduce LangGraph, which handles state management, tool execution, and observability. Once you understand the fundamentals, frameworks make you more productive.
 
-**Example 08** ("Flawed Code") is a minimal Claude Code clone. It's intentionally simple (~200 lines) and uses cheap models—so it makes mistakes. That's the point: understanding both capabilities and limitations.
+**Example 08** ("FlawedCode") is a minimal Claude Code clone. It's intentionally simple (~200 lines) and uses cheap models—so it makes mistakes. That's the point: understanding both capabilities and limitations.
 
 ## Model Philosophy
 
@@ -16,7 +16,7 @@ All examples use **cheap models via OpenRouter** (Llama 3.1 8B, Gemini Flash, et
 - Keeps costs near zero for experimentation
 - Shows agents work even with small models
 - Demonstrates quality/cost tradeoffs
-- Explains why it's called "Flawed Code"
+- Explains why it's called "FlawedCode"
 
 ## Directory Overview
 

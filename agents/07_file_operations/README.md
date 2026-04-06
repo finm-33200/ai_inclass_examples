@@ -149,6 +149,6 @@ File operations enable:
 3. **Bug fix**: "The divide function needs better error handling"
 4. **Documentation**: "Update the README to describe all functions"
 
-## Next: Flawed Code
+## Next: FlawedCode
 
 This example provides the file operation tools we need for "flawed_code" (example 08). Combined with code execution from example 06, we have all the building blocks!
