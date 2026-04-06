@@ -1,0 +1,37 @@
+{
+  "models": {
+    "ChronoGPT-2024": {
+      "tasks": {
+        "math_reasoning": {
+          "score": 0.0,
+          "correct": 0,
+          "total": 3
+        },
+        "general_knowledge": {
+          "score": 0.3333333333333333,
+          "correct": 1,
+          "total": 3
+        }
+      }
+    },
+    "ChronoGPT-2000": {
+      "tasks": {
+        "math_reasoning": {
+          "score": 0.3333333333333333,
+          "correct": 1,
+          "total": 3
+        },
+        "general_knowledge": {
+          "score": 0.3333333333333333,
+          "correct": 1,
+          "total": 3
+        }
+      }
+    }
+  },
+  "summary": {
+    "total_evaluations": 12,
+    "models_evaluated": 2,
+    "questions_per_task": 3
+  }
+}

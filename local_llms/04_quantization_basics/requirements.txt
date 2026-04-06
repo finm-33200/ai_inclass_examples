@@ -1,0 +1,5 @@
+transformers
+torch
+accelerate
+sentencepiece
+bitsandbytes; sys_platform == "linux"

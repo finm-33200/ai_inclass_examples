@@ -1,0 +1,3 @@
+torch
+huggingface_hub
+tiktoken

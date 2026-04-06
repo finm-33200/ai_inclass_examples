@@ -1,0 +1,5 @@
+lm-eval
+transformers
+torch
+accelerate
+sentencepiece
