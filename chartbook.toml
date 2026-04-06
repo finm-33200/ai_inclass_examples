@@ -1,0 +1,31 @@
+[config]
+type = "pipeline"
+chartbook_format_version = "0.0.2"
+
+[site]
+title = "ai_inclass_examples"
+author = "Jeremy Bejarano"
+copyright = "2025"
+logo_path = ""
+favicon_path = ""
+
+[pipeline]
+id = "FINM33200"
+pipeline_name = "ai_inclass_examples"
+pipeline_description = "In-class examples for FINM 33200: Generative and Agentic AI for Finance"
+lead_pipeline_developer = "Jeremy Bejarano"
+contributors = []
+software_modules_command = ""
+runs_on_grid_or_windows_or_other = "Windows/Linux/MacOS"
+git_repo_URL = ""
+README_file_path = "./README.md"
+
+[notebooks]
+
+[notebooks.openai_api_overview]
+notebook_description = "Overview of the OpenAI-compatible API: basic completions, model comparison, streaming, structured outputs, function calling, and web search."
+notebook_path = "_output/openai_api_overview.ipynb"
+
+[dataframes]
+
+[charts]
