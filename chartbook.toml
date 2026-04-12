@@ -3,7 +3,7 @@ type = "pipeline"
 chartbook_format_version = "0.0.2"
 
 [site]
-title = "ai_inclass_examples"
+title = "In Class Examples for FINM 33200: Generative and Agentic AI for Finance"
 author = "Jeremy Bejarano"
 copyright = "2025"
 logo_path = ""
@@ -25,6 +25,10 @@ README_file_path = "./README.md"
 [notebooks.openai_api_overview]
 notebook_description = "Overview of the OpenAI-compatible API: basic completions, model comparison, streaming, structured outputs, function calling, and web search."
 notebook_path = "_output/openai_api_overview.ipynb"
+
+[notebooks.benchmarking_llms]
+notebook_description = "45-minute lecture on benchmarking LLMs: latency/cost, assertion-based eval, LLM-as-judge, thinking vs non-thinking models, tool-use performance gains, standardized benchmarks, and common pitfalls."
+notebook_path = "_output/benchmarking_llms.ipynb"
 
 [dataframes]
 

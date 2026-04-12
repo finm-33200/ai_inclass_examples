@@ -76,6 +76,11 @@ notebook_tasks = {
         "file_dep": [],
         "targets": [],
     },
+    "benchmarking_llms": {
+        "pyfile": "./discussion_notebooks/benchmarking_llms.ipynb.py",
+        "file_dep": [],
+        "targets": [],
+    },
 }
 
 
