@@ -25,6 +25,7 @@
 # 4. Structured outputs (JSON mode, JSON schema, Pydantic)
 # 5. Function calling / tool use
 # 6. Web search grounding
+# 7. Vision & OCR
 
 # %% [markdown]
 # ## 1. Setup
@@ -36,10 +37,12 @@
 #   the same OpenAI-compatible interface.
 
 # %%
+import base64
+import io
 import json
 import random
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Literal
 
@@ -553,6 +556,127 @@ def execute_simple_tool(name: str, arguments: dict) -> str:
         return calculate(arguments["expression"])
     return f"Unknown tool: {name}"
 
+# %% [markdown]
+# ### Step-by-step walkthrough
+#
+# Before running the full loop, let's walk through **one round trip**
+# manually so we can inspect every object along the way.
+
+# %% [markdown]
+# **Step 1 — Send the user's question along with tool definitions.**
+#
+# We give the model two things: the conversation so far, and a list of
+# tools it is allowed to call. The model decides whether to answer
+# directly or request one or more tool calls.
+
+# %%
+user_question = "What time is it, and what is 15% of 850?"
+
+messages = [
+    {
+        "role": "system",
+        "content": "You are a helpful assistant. Use the available tools to answer questions accurately.",
+    },
+    {"role": "user", "content": user_question},
+]
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=messages,
+    tools=SIMPLE_TOOLS,
+)
+
+# What did the model send back?
+message = response.choices[0].message
+message
+
+# %% [markdown]
+# Look at two fields on that message:
+# - **`content`** is `None` — the model did *not* answer our question.
+# - **`tool_calls`** is a list — the model is **asking us to execute
+#   functions on its behalf**. It cannot run code; it can only say
+#   "please call this function with these arguments."
+
+# %%
+print(f"content:    {message.content!r}")
+print(f"tool_calls: {message.tool_calls}")
+
+# %%
+# Each tool_call has an ID, a function name, and a JSON argument string.
+for tc in message.tool_calls:
+    print(f"ID:        {tc.id}")
+    print(f"Function:  {tc.function.name}")
+    print(f"Arguments: {tc.function.arguments}")
+    print()
+
+# %% [markdown]
+# **Step 2 — Execute the requested tools and report results back.**
+#
+# We must:
+# 1. Append the assistant's message (the one containing `tool_calls`)
+#    to the conversation history.
+# 2. Run each tool locally and append a `"role": "tool"` message whose
+#    `tool_call_id` links it to the original request.
+
+# %%
+# Append the assistant's tool-calling message
+messages.append(message)
+
+# Execute each requested tool and append results
+for tc in message.tool_calls:
+    name = tc.function.name
+    args = json.loads(tc.function.arguments)
+    result = execute_simple_tool(name, args)
+    print(f"{name}({args}) → {result}")
+    messages.append(
+        {"role": "tool", "tool_call_id": tc.id, "content": result}
+    )
+
+# %% [markdown]
+# The conversation now looks like this — we started with 2 messages
+# (system + user), and after one round of tool calling we have 2 more
+# (the assistant's tool request + our tool results):
+
+# %%
+for i, m in enumerate(messages):
+    role = m["role"] if isinstance(m, dict) else m.role
+    if isinstance(m, dict):
+        content = m.get("content", "")
+    else:
+        content = m.content or "(tool_calls — see above)"
+    print(f"[{i}] {role:10s} {content[:80]}")
+
+# %% [markdown]
+# **Step 3 — Send the updated conversation back to the model.**
+#
+# The model now sees the tool outputs and can compose a final answer.
+
+# %%
+response2 = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=messages,
+    tools=SIMPLE_TOOLS,
+)
+
+message2 = response2.choices[0].message
+print(f"tool_calls: {message2.tool_calls}")
+print(f"content:    {message2.content}")
+
+# %% [markdown]
+# This time `tool_calls` is `None` and `content` has the answer. The
+# model used both tool results to write a human-readable response.
+#
+# **Why a loop?** The model might need *multiple* rounds of tool calls
+# before it has enough information. For instance, a tool result might
+# prompt the model to call *another* tool. The loop keeps going until the
+# model returns `content` instead of `tool_calls` (or we hit a safety
+# limit on iterations).
+
+# %% [markdown]
+# ### Full tool-calling loop
+#
+# Here is the same logic packaged as a reusable loop:
+
 # %%
 user_question = "What time is it, and what is 15% of 850?"
 
@@ -816,6 +940,295 @@ if hasattr(message, "annotations") and message.annotations:
 
 # %% [markdown]
 # ---
+# ## 8. Vision & OCR
+#
+# Vision-capable models can read images: charts, tables, scanned
+# documents, screenshots. In finance, this is useful for extracting data
+# from earnings PDFs, reading chart patterns, or OCR-ing historical
+# records.
+#
+# The API accepts images as **base64-encoded data URLs** inside a
+# multi-part `content` array (text + image together).
+
+# %% [markdown]
+# ### 8a. Describing a Chart
+#
+# We generate a simple stock-price chart with matplotlib, encode it as
+# base64, and ask the model to describe what it sees.
+
+# %%
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Generate a sample stock chart
+np.random.seed(42)
+days = np.arange(100)
+prices = 100 + np.cumsum(np.random.randn(100) * 2)
+
+fig, ax = plt.subplots(figsize=(10, 6))
+ax.plot(days, prices, "b-", linewidth=2)
+ax.fill_between(days, prices, alpha=0.3)
+ax.set_title("ACME Corp Stock Price (2024)", fontsize=14)
+ax.set_xlabel("Trading Days")
+ax.set_ylabel("Price ($)")
+ax.grid(True, alpha=0.3)
+
+max_idx, min_idx = int(np.argmax(prices)), int(np.argmin(prices))
+ax.annotate(f"High: ${prices[max_idx]:.2f}", xy=(max_idx, prices[max_idx]),
+            xytext=(max_idx + 5, prices[max_idx] + 5), fontsize=10)
+ax.annotate(f"Low: ${prices[min_idx]:.2f}", xy=(min_idx, prices[min_idx]),
+            xytext=(min_idx + 5, prices[min_idx] - 5), fontsize=10)
+
+# Save to bytes and encode as base64
+buf = io.BytesIO()
+plt.savefig(buf, format="png", dpi=100, bbox_inches="tight")
+plt.close()
+buf.seek(0)
+chart_b64 = base64.b64encode(buf.read()).decode("utf-8")
+
+print(f"Image size: {len(chart_b64)} chars (base64)")
+
+# %% [markdown]
+# The key part: images go inside the `content` array alongside text.
+# Each element has a `type` — either `"text"` or `"image_url"`.
+
+# %%
+messages = [
+    {
+        "role": "user",
+        "content": [
+            {
+                "type": "text",
+                "text": (
+                    "Describe this stock chart. What trends do you see? "
+                    "Is the stock trending up or down overall?"
+                ),
+            },
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{chart_b64}"},
+            },
+        ],
+    }
+]
+
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=messages,
+    max_tokens=500,
+)
+
+print(response.choices[0].message.content)
+
+# %% [markdown]
+# ### 8b. Extracting Structured Data from a Table Image
+#
+# This combines **vision** with **structured outputs** (Section 5). We
+# render a financial table as an image, then ask the model to extract
+# typed data — demonstrating OCR that goes straight to a Pydantic object.
+
+# %%
+# Generate a table image
+fig, ax = plt.subplots(figsize=(10, 4))
+ax.axis("off")
+
+headers = ["Company", "Ticker", "Revenue ($B)", "YoY Growth", "P/E Ratio"]
+data = [
+    ["Apple Inc.", "AAPL", "383.3", "+2.8%", "28.5"],
+    ["Microsoft", "MSFT", "211.9", "+15.6%", "35.2"],
+    ["Alphabet", "GOOGL", "307.4", "+8.7%", "24.1"],
+    ["Amazon", "AMZN", "574.8", "+11.8%", "62.3"],
+    ["NVIDIA", "NVDA", "60.9", "+125.9%", "65.8"],
+]
+
+table = ax.table(
+    cellText=data,
+    colLabels=headers,
+    cellLoc="center",
+    loc="center",
+    colColours=["#4472C4"] * len(headers),
+)
+table.auto_set_font_size(False)
+table.set_fontsize(11)
+table.scale(1.2, 1.8)
+
+for j in range(len(headers)):
+    table[(0, j)].set_text_props(color="white", weight="bold")
+
+ax.set_title("Tech Giants — Q4 2024 Financial Summary", fontsize=14, weight="bold", pad=20)
+
+buf = io.BytesIO()
+plt.savefig(buf, format="png", dpi=150, bbox_inches="tight", facecolor="white")
+plt.close()
+buf.seek(0)
+table_b64 = base64.b64encode(buf.read()).decode("utf-8")
+
+print(f"Table image: {len(table_b64)} chars (base64)")
+
+# %% [markdown]
+# Define Pydantic models for the table structure, then use
+# `client.beta.chat.completions.parse` — a convenience method that
+# handles the `response_format` wiring and returns a typed `.parsed`
+# object directly.
+
+# %%
+class FinancialRow(BaseModel):
+    """A single row from a financial table."""
+
+    company: str
+    ticker: str
+    revenue_billions: float
+    growth_pct: float
+    pe_ratio: float
+
+
+class FinancialTable(BaseModel):
+    """Extracted financial table data."""
+
+    title: str = Field(description="Title of the table")
+    rows: list[FinancialRow] = Field(description="Data rows from the table")
+
+# %%
+messages = [
+    {
+        "role": "system",
+        "content": "Extract the data from this financial table image into structured format.",
+    },
+    {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Extract all the data from this table."},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{table_b64}"},
+            },
+        ],
+    },
+]
+
+response = client.beta.chat.completions.parse(
+    model="gpt-4o-mini",
+    messages=messages,
+    response_format=FinancialTable,
+)
+
+table_data = response.choices[0].message.parsed
+
+print(f"Table Title: {table_data.title}\n")
+print(f"{'Company':<15} {'Ticker':<8} {'Revenue':>10} {'Growth':>10} {'P/E':>8}")
+print("-" * 55)
+for row in table_data.rows:
+    print(f"{row.company:<15} {row.ticker:<8} ${row.revenue_billions:>8.1f} {row.growth_pct:>+9.1f}% {row.pe_ratio:>8.1f}")
+
+# %% [markdown]
+# ### 8c. Analyzing a Chart with Structured Output
+#
+# A more complex example: a multi-panel chart (price + volume) analyzed
+# into a typed `ChartAnalysis` object.
+
+# %%
+# Generate a more complex chart with price + volume panels
+np.random.seed(123)
+
+start_date = datetime(2024, 1, 1)
+dates = [start_date + timedelta(days=i) for i in range(250) if (start_date + timedelta(days=i)).weekday() < 5][:180]
+
+base_price = 150
+returns = np.random.randn(len(dates)) * 0.015 + np.linspace(0, 0.3, len(dates)) / len(dates)
+prices = base_price * np.cumprod(1 + returns)
+prices[60:90] *= np.linspace(1, 0.85, 30)
+prices[90:] *= 0.85
+
+ma20 = np.convolve(prices, np.ones(20) / 20, mode="valid")
+ma50 = np.convolve(prices, np.ones(50) / 50, mode="valid")
+
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 8), height_ratios=[3, 1], sharex=True)
+fig.suptitle("TECH ETF — 2024 YTD Performance", fontsize=14, weight="bold")
+
+ax1.plot(dates, prices, "b-", linewidth=1.5, label="Price")
+ax1.plot(dates[19:], ma20, "orange", linewidth=1, label="20-day MA", alpha=0.8)
+ax1.plot(dates[49:], ma50, "red", linewidth=1, label="50-day MA", alpha=0.8)
+ax1.axhline(y=140, color="green", linestyle="--", alpha=0.5, label="Support")
+ax1.axhline(y=175, color="red", linestyle="--", alpha=0.5, label="Resistance")
+ax1.set_ylabel("Price ($)")
+ax1.legend(loc="upper left")
+ax1.grid(True, alpha=0.3)
+
+volumes = np.random.randint(1_000_000, 5_000_000, len(dates))
+volumes[60:90] *= 2
+colors = ["g"] + ["g" if prices[i] > prices[i - 1] else "r" for i in range(1, len(prices))]
+ax2.bar(dates, volumes, color=colors, alpha=0.7, width=0.8)
+ax2.set_ylabel("Volume")
+ax2.set_xlabel("Date")
+
+import matplotlib.dates as mdates
+ax2.xaxis.set_major_formatter(mdates.DateFormatter("%b"))
+ax2.xaxis.set_major_locator(mdates.MonthLocator())
+plt.tight_layout()
+
+buf = io.BytesIO()
+plt.savefig(buf, format="png", dpi=150, bbox_inches="tight", facecolor="white")
+plt.close()
+buf.seek(0)
+etf_b64 = base64.b64encode(buf.read()).decode("utf-8")
+
+print(f"Chart image: {len(etf_b64)} chars (base64)")
+
+# %%
+class ChartAnalysis(BaseModel):
+    """Structured analysis of a financial chart."""
+
+    chart_type: str = Field(description="Type of chart (line, bar, candlestick, etc.)")
+    title: str = Field(description="Title of the chart")
+    time_period: str = Field(description="Time period covered by the chart")
+    overall_trend: str = Field(description="Overall trend: upward, downward, sideways, or volatile")
+    key_observations: list[str] = Field(description="3-5 key observations from the chart")
+    support_level: float | None = Field(description="Approximate support level if visible", default=None)
+    resistance_level: float | None = Field(description="Approximate resistance level if visible", default=None)
+
+# %%
+messages = [
+    {
+        "role": "system",
+        "content": "You are a technical analyst. Analyze the provided chart "
+        "and extract key insights about price trends, support/resistance levels, "
+        "and notable patterns.",
+    },
+    {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": "Analyze this financial chart in detail."},
+            {
+                "type": "image_url",
+                "image_url": {"url": f"data:image/png;base64,{etf_b64}"},
+            },
+        ],
+    },
+]
+
+response = client.beta.chat.completions.parse(
+    model="gpt-4o-mini",
+    messages=messages,
+    response_format=ChartAnalysis,
+)
+
+analysis = response.choices[0].message.parsed
+
+print(f"Chart Type: {analysis.chart_type}")
+print(f"Title: {analysis.title}")
+print(f"Time Period: {analysis.time_period}")
+print(f"Overall Trend: {analysis.overall_trend}")
+if analysis.support_level:
+    print(f"Support Level: ${analysis.support_level:.2f}")
+if analysis.resistance_level:
+    print(f"Resistance Level: ${analysis.resistance_level:.2f}")
+
+print("\nKey Observations:")
+for i, obs in enumerate(analysis.key_observations, 1):
+    print(f"  {i}. {obs}")
+
+# %% [markdown]
+# ---
 # ## Summary
 #
 # | Capability | Key API parameter |
@@ -829,3 +1242,5 @@ if hasattr(message, "annotations") and message.annotations:
 # | Function calling | `tools=[...]`, then handle `message.tool_calls` in a loop |
 # | Web search (OpenAI) | `client.responses.create(tools=[{"type": "web_search_preview"}])` |
 # | Web search (OpenRouter) | Append `:online` to model slug |
+# | Vision / OCR | Multi-part `content` with `"type": "image_url"` |
+# | Vision + structured | Combine image input with `response_format` or `beta.chat.completions.parse` |
