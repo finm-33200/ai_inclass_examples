@@ -1,5 +1,0 @@
-# OpenAI Python SDK
-openai
-
-# Environment variable handling
-python-decouple

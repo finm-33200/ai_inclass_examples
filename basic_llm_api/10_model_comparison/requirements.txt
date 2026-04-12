@@ -1,5 +1,0 @@
-# OpenAI SDK (works with OpenRouter)
-openai
-
-# Environment variable handling
-python-decouple
