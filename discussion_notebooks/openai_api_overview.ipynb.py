@@ -491,18 +491,85 @@ print("- Always validate responses with Pydantic for type safety")
 # ---
 # ## 6. Function Calling / Tool Use
 #
-# Function calling lets the model decide **when** to invoke tools you
-# define. The flow is a loop:
+# So far, the model has only produced text. But what if it needs to
+# **do** something — check the time, run a calculation, look up a stock
+# price, or query a database? The model can't do any of these things
+# itself. It has no access to the internet, no file system, no
+# calculator. It can only read and write text.
 #
-# 1. Send messages + tool definitions to the model
-# 2. If the model returns `tool_calls`, execute them locally
-# 3. Append the tool results and call the model again
-# 4. Repeat until the model returns a plain text answer
-
-# %% [markdown]
+# **Function calling** (also called "tool use") solves this by splitting
+# the work in two:
+#
+# - **The model** decides *what* to call and *with what arguments*.
+# - **Your code** actually executes the function and returns the result.
+#
+# The model is the **brain** (it reasons about what information it needs);
+# your code is the **hands** (it acts on the world). The API is the
+# nervous system connecting them.
+#
+# ### Why this design?
+#
+# Why doesn't the model just execute the tools itself on OpenAI's
+# servers? Three reasons:
+#
+# 1. **Security.** Tools often touch sensitive systems — databases,
+#    brokerage APIs, credentials. Execution stays in *your* sandbox,
+#    so your API keys and data never leave your environment.
+# 2. **Control.** You can validate, log, rate-limit, or override any
+#    tool call before executing it. In finance, where a malformed
+#    query could be expensive, this is critical.
+# 3. **Generality.** OpenAI can't anticipate every tool you might need.
+#    By defining a protocol (JSON schema in, JSON result back), *any*
+#    local function becomes available without OpenAI needing to host it.
+#
+# ### The tool-calling loop
+#
+# The interaction follows a loop. The model and your code take turns
+# until the model has enough information to answer in plain text:
+#
+# ```
+# ┌─────────────────────────────────────────────────────────┐
+# │                     YOUR CODE                           │
+# │                                                         │
+# │  1. Send messages + tool definitions ──────────►  API   │
+# │                                                         │
+# │  2. API returns tool_calls             ◄──────── API    │
+# │     (model says: "please call                           │
+# │      calculate('15 * 850 / 100')")                      │
+# │                                                         │
+# │  3. Execute locally, append result ────────────► API    │
+# │     (you run the function, send                         │
+# │      back "127.5")                                      │
+# │                                                         │
+# │  4. Repeat until model returns ────────◄──────── API    │
+# │     plain text (no more tool_calls)                     │
+# └─────────────────────────────────────────────────────────┘
+# ```
+#
+# Each round trip adds messages to the conversation: the model's
+# tool-call request (an assistant message) and your tool results (tool
+# messages). The model sees the full history each time, so it can
+# reason across multiple rounds.
+#
+# ### What the model actually returns
+#
+# When the model wants to use a tool, its response message has:
+# - **`content = None`** — it is *not* answering the user yet
+# - **`tool_calls = [...]`** — a list of function calls it wants you
+#   to execute, each with a name, JSON arguments, and a unique ID
+#
+# The arguments are **inert JSON data**, not executable code. This keeps
+# the attack surface minimal — your dispatcher maps the JSON to a
+# real function call.
+#
+# Let's see this in action.
+#
 # ### 6a. Simple Tools
 #
-# Two basic tools: `get_current_time` and `calculate`.
+# We start with two basic tools: `get_current_time` (no arguments) and
+# `calculate` (takes a math expression). We define each tool's schema
+# as a JSON object following the OpenAI tool format, then write the
+# corresponding Python functions that will actually execute when called.
 
 # %%
 SIMPLE_TOOLS = [
@@ -600,6 +667,12 @@ message
 # %%
 print(f"content:    {message.content!r}")
 print(f"tool_calls: {message.tool_calls}")
+
+# %% [markdown]
+# Let's unpack each tool call. Every entry has three fields:
+# - **`id`** — a unique identifier we'll use to link the result back
+# - **`function.name`** — which function the model wants called
+# - **`function.arguments`** — a JSON string with the arguments
 
 # %%
 # Each tool_call has an ID, a function name, and a JSON argument string.
@@ -720,11 +793,67 @@ while iteration < max_iterations:
         break
 
 # %% [markdown]
-# ### 6b. Finance Tools
+# ### 6b. Finance Tools — Multi-Tool Orchestration
 #
-# A more realistic example with simulated stock data. The model must
-# call multiple tools (get prices, info, calculate returns) to answer
-# a comparative question.
+# The simple example above used one or two tools in a single round.
+# In practice, financial analysis often requires **chaining** several
+# data lookups and computations to answer a single question. This is
+# where tool use becomes powerful: the model acts as an **orchestrator**
+# that breaks a complex question into a sequence of tool calls.
+#
+# Consider the question: *"Compare AAPL and NVDA — which has a better
+# P/E ratio? Also, if I bought AAPL at \$150, what's my return?"*
+#
+# To answer, the model needs to:
+# 1. Look up stock info for both AAPL and NVDA (to get P/E ratios)
+# 2. Look up the current price of AAPL (to compute a return)
+# 3. Calculate the percentage return from \$150 to the current price
+# 4. Compose a response using all three results
+#
+# No single tool can answer this. The model must decide which tools to
+# call, in what order, and how to combine the results — exactly the
+# kind of multi-step reasoning that makes tool use different from a
+# simple API wrapper.
+#
+# ```
+#  User: "Compare AAPL and NVDA P/E; also my AAPL return from $150"
+#    │
+#    ▼
+#  ┌──────────────────────────────────────────────────────┐
+#  │  Model (iteration 1):                                │
+#  │    tool_calls:                                       │
+#  │      get_stock_info("AAPL")                          │
+#  │      get_stock_info("NVDA")                          │
+#  │      get_stock_price("AAPL")                         │
+#  └──────────────────────────────────────────────────────┘
+#    │ execute all three locally, return results
+#    ▼
+#  ┌──────────────────────────────────────────────────────┐
+#  │  Model (iteration 2):                                │
+#  │    tool_calls:                                       │
+#  │      calculate_return(start=150, end=178.50)         │
+#  └──────────────────────────────────────────────────────┘
+#    │ execute, return result
+#    ▼
+#  ┌──────────────────────────────────────────────────────┐
+#  │  Model (iteration 3):                                │
+#  │    content: "AAPL has a P/E of 28.5 vs NVDA's 65.8, │
+#  │    so AAPL is cheaper by this metric. Your return    │
+#  │    from $150 is +19.0%."                             │
+#  └──────────────────────────────────────────────────────┘
+# ```
+#
+# We simulate this with three tools backed by a local dictionary of
+# stock data. In production you would swap in real API calls (e.g.,
+# `yfinance`, Bloomberg, WRDS) — the loop structure stays the same.
+#
+# **Tools we define:**
+#
+# | Tool | Purpose | Arguments |
+# |------|---------|-----------|
+# | `get_stock_price` | Current price for a ticker | `ticker` |
+# | `get_stock_info` | Company name, P/E, market cap | `ticker` |
+# | `calculate_return` | Percentage return between two prices | `start_price`, `end_price` |
 
 # %%
 FINANCE_TOOLS = [
@@ -819,6 +948,11 @@ def execute_finance_tool(name: str, arguments: dict) -> str:
     elif name == "calculate_return":
         return calculate_return(arguments["start_price"], arguments["end_price"])
     return json.dumps({"error": f"Unknown tool: {name}"})
+
+# %% [markdown]
+# Now we run the same loop from Section 6a, but with the finance tools.
+# Watch the output: the model will make multiple rounds of tool calls,
+# gathering data before composing its final answer.
 
 # %%
 user_question = (
