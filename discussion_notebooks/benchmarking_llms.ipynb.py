@@ -13,7 +13,7 @@
 # ---
 
 # %% [markdown]
-# # Benchmarking LLMs and LLM Agents
+# # Benchmarking LLMs
 #
 # This notebook walks through how to measure, evaluate, and benchmark
 # large language models — progressing from simple latency measurements
@@ -21,13 +21,12 @@
 #
 # **Topics covered:**
 # 1. Why benchmarking matters — the benchmark taxonomy
-# 2. Latency and cost measurement
-# 3. DIY evaluation with assertions
-# 4. LLM-as-judge
-# 5. Thinking vs non-thinking models
-# 6. Tool use boosts performance
-# 7. Standardized benchmarks (lm-evaluation-harness)
-# 8. Pitfalls and takeaways
+# 2. DIY evaluation with assertions
+# 3. LLM-as-judge
+# 4. Thinking vs non-thinking models
+# 5. Tool use boosts performance
+# 6. Standardized benchmarks (lm-evaluation-harness)
+# 7. Pitfalls and takeaways
 
 # %% [markdown]
 # ## 1. Setup
@@ -94,33 +93,7 @@ openrouter_client = OpenAI(
 #
 # We will demonstrate both of these live in this notebook.
 
-# %% [markdown]
-# ---
-# ## 3. Latency and Cost Measurement
-#
-# The most basic benchmark: how fast is it, and how much does it cost?
-#
-# Every API response includes a `usage` field with token counts. We
-# combine that with published per-million-token prices to compute cost.
-# Wrapping the call with `time.time()` gives us wall-clock latency.
-#
-# Below we define two models to compare (GPT-4o Mini vs GPT-4o), two
-# finance prompts, and helper functions to run a prompt and calculate
-# its cost.
-
 # %%
-# Models to compare (prices per million tokens, from openai.com/api/pricing)
-MODELS = [
-    {"id": "gpt-4o-mini", "name": "GPT-4o Mini", "input_price": 0.15, "output_price": 0.60},
-    {"id": "gpt-4o", "name": "GPT-4o", "input_price": 2.50, "output_price": 10.00},
-]
-
-PROMPTS = [
-    {"name": "current_yield", "text": "What is the current yield formula for a bond? Explain briefly."},
-    {"name": "sharpe_ratio", "text": "A portfolio has annual return of 12%, risk-free rate is 3%, and standard deviation is 15%. Calculate the Sharpe ratio and show your work."},
-]
-
-
 def run_prompt(api_client, model_id, prompt, max_tokens=300):
     """Run a single prompt and capture timing + token metrics."""
     start = time.time()
@@ -141,130 +114,77 @@ def run_prompt(api_client, model_id, prompt, max_tokens=300):
         "total_tokens": response.usage.total_tokens,
     }
 
-
-def calculate_cost(input_tokens, output_tokens, input_price, output_price):
-    """Cost in USD from token counts and per-million-token prices."""
-    return round((input_tokens * input_price + output_tokens * output_price) / 1_000_000, 6)
-
-# %% [markdown]
-# Now we send each prompt to both models and collect latency, token
-# counts, and cost. The results are printed as a comparison table.
-
-# %%
-print("=" * 70)
-print("LATENCY AND COST BENCHMARK")
-print("=" * 70)
-
-results = []
-for model in MODELS:
-    for prompt_info in PROMPTS:
-        metrics = run_prompt(client, model["id"], prompt_info["text"])
-        cost = calculate_cost(
-            metrics["input_tokens"], metrics["output_tokens"],
-            model["input_price"], model["output_price"],
-        )
-        results.append({**metrics, "model": model["name"], "prompt": prompt_info["name"], "cost": cost})
-
-# Print comparison table
-print(f"\n{'Model':<16} {'Prompt':<16} {'Latency':<10} {'Tokens':<8} {'Cost':>10}")
-print("-" * 62)
-for r in results:
-    print(f"{r['model']:<16} {r['prompt']:<16} {r['latency_s']:>6.2f}s   {r['total_tokens']:<8} ${r['cost']:.6f}")
-
-# Cost ratio
-costs_by_model = {}
-for r in results:
-    costs_by_model.setdefault(r["model"], 0)
-    costs_by_model[r["model"]] += r["cost"]
-model_names = list(costs_by_model.keys())
-if len(model_names) == 2:
-    ratio = costs_by_model[model_names[1]] / costs_by_model[model_names[0]]
-    print(f"\n{model_names[1]} costs {ratio:.1f}x more than {model_names[0]}")
-
 # %% [markdown]
 # ---
-# ## 4. DIY Evaluation with Assertions
+# ## 3. DIY Evaluation with Assertions
 #
-# A simple but powerful evaluation pattern: send a prompt to the model,
-# then check whether the response contains specific keywords or phrases
-# you expect in a correct answer.
+# A better pattern than keyword-checking: give the model problems with
+# **known numeric answers**, require a specific output format, then use
+# regex to extract and verify the answer.
 #
-# For example, any good explanation of current yield should mention
-# "coupon" and "price." We can automate this with two assertion types:
-#
-# - **contains** — a specific string must appear in the response
-# - **contains_any** — at least one string from a list must appear
-#
-# Below we define three finance test cases with their expected
-# assertions, plus a helper function that checks each assertion
-# against a model's response.
+# This tests two things at once:
+# 1. **Format compliance** — did the model follow instructions?
+# 2. **Correctness** — is the extracted number right?
 
 # %%
-TEST_CASES = [
+MATH_TEST_CASES = [
     {
-        "question": "What is a bond's current yield? Give the formula.",
-        "assertions": [
-            {"type": "contains", "value": "coupon"},
-            {"type": "contains", "value": "price"},
-        ],
+        "question": "A bond has a face value of $1,000 and pays a 5% annual coupon. It currently trades at $980. What is the current yield? Give your answer as a percentage rounded to two decimal places.",
+        "answer": 5.10,
     },
     {
-        "question": "What is duration in bond investing?",
-        "assertions": [
-            {"type": "contains_any", "values": ["interest rate", "sensitivity", "price change"]},
-        ],
+        "question": "A portfolio is 60% stocks and 40% bonds. Stocks returned 12% and bonds returned -2%. What is the portfolio return as a percentage?",
+        "answer": 6.4,
     },
     {
-        "question": "What is the Sharpe ratio and how is it interpreted?",
-        "assertions": [
-            {"type": "contains", "value": "risk-free"},
-            {"type": "contains_any", "values": ["standard deviation", "volatility"]},
-        ],
+        "question": "You invest $10,000 at 7% annual interest compounded annually. What is the value after 3 years, rounded to two decimal places?",
+        "answer": 12250.43,
     },
 ]
 
+FORMAT_INSTRUCTION = "\n\nRespond with EXACTLY this format on the last line:\nANSWER: <number>"
 
-def check_assertion(response_text, assertion):
-    """Check a single assertion against a response. Returns (pass, detail)."""
-    text_lower = response_text.lower()
-    if assertion["type"] == "contains":
-        found = assertion["value"].lower() in text_lower
-        return found, f"contains '{assertion['value']}'"
-    elif assertion["type"] == "contains_any":
-        for v in assertion["values"]:
-            if v.lower() in text_lower:
-                return True, f"contains '{v}'"
-        return False, f"missing all of {assertion['values']}"
-    return False, "unknown assertion type"
+
+def extract_answer(text):
+    """Extract the number after 'ANSWER:' using regex. Returns (number, matched)."""
+    match = re.search(r"ANSWER:\s*\$?([\d,]+\.?\d*)", text)
+    if match:
+        return float(match.group(1).replace(",", "")), True
+    return None, False
 
 # %% [markdown]
-# Now we run each test case against two models and report pass/fail
-# for every question-model pair.
+# Run each problem against two models. We check format compliance
+# (did the regex match?) and correctness (within 0.1 of expected).
 
 # %%
-eval_models = ["gpt-4o-mini", "gpt-4o"]
+eval_models = [
+    {"client": openrouter_client, "id": "meta-llama/llama-3.1-8b-instruct", "name": "Llama 3.1 8B"},
+    {"client": openrouter_client, "id": "google/gemma-2-9b-it", "name": "Gemma 2 9B"},
+    {"client": client, "id": "gpt-4o-mini", "name": "gpt-4o-mini"},
+    {"client": client, "id": "gpt-4o", "name": "gpt-4o"},
+]
 
 print("=" * 70)
-print("ASSERTION-BASED EVALUATION")
+print("DIY MATH EVALUATION")
 print("=" * 70)
 
-for tc in TEST_CASES:
-    print(f"\nQ: {tc['question'][:60]}...")
-    for model_id in eval_models:
-        metrics = run_prompt(client, model_id, tc["question"])
-        passes = 0
-        for assertion in tc["assertions"]:
-            passed, detail = check_assertion(metrics["output"], assertion)
-            passes += int(passed)
-        total = len(tc["assertions"])
-        status = "PASS" if passes == total else "FAIL"
-        print(f"  {model_id:<16} {status}  ({passes}/{total} assertions)")
+for tc in MATH_TEST_CASES:
+    print(f"\nQ: {tc['question'][:65]}...")
+    for model in eval_models:
+        metrics = run_prompt(model["client"], model["id"], tc["question"] + FORMAT_INSTRUCTION)
+        extracted, format_ok = extract_answer(metrics["output"])
+        correct = extracted is not None and abs(extracted - tc["answer"]) < 0.1
+        fmt_tag = "format:OK" if format_ok else "format:FAIL"
+        ans_tag = "correct" if correct else f"wrong (got {extracted})"
+        print(f"  {model['name']:<20} {fmt_tag}, {ans_tag}  [expected {tc['answer']}]")
 
 # %% [markdown]
 # ---
-# ## 5. LLM-as-Judge
+# ## 4. LLM-as-Judge
 #
-# Instead of checking for keywords, we can use a stronger model to
+# Assertion-based checks work well when the answer is a single number,
+# but many questions have open-ended answers where there is no exact
+# value to compare against. For those, we can use a stronger model to
 # **grade** a weaker model's response. This is the LLM-as-judge
 # pattern:
 #
@@ -329,8 +249,8 @@ Respond in JSON format:
     return json.loads(result.choices[0].message.content)
 
 # %% [markdown]
-# Let's put it to work. We ask gpt-4o-mini two finance questions, then
-# have gpt-4o judge each response on accuracy and completeness.
+# Let's put it to work. We ask two models the same finance questions,
+# then have gpt-4o judge each response on accuracy and completeness.
 
 # %%
 judge_questions = [
@@ -338,35 +258,110 @@ judge_questions = [
     "Should I invest all my savings in a single stock?",
 ]
 
-model_under_test = "gpt-4o-mini"
+models_under_test = [
+    {"client": openrouter_client, "id": "meta-llama/llama-3.1-8b-instruct", "name": "Llama 3.1 8B"},
+    {"client": client, "id": "gpt-4o-mini", "name": "gpt-4o-mini"},
+]
 judge_model = "gpt-4o"
 
 print("=" * 70)
-print(f"LLM-AS-JUDGE — Testing: {model_under_test}, Judge: {judge_model}")
+print(f"LLM-AS-JUDGE — Judge: {judge_model}")
 print("=" * 70)
 
 for question in judge_questions:
     print(f"\nQ: {question}")
-    metrics = run_prompt(client, model_under_test, question)
-    print(f"  Response: {metrics['output'][:80]}...")
-
-    for rubric_name, rubric_text in RUBRICS.items():
-        judgment = judge_response(client, question, metrics["output"], rubric_text)
-        print(f"  {rubric_name}: {judgment['score']}/5 — {judgment['reasoning'][:60]}...")
+    for model in models_under_test:
+        metrics = run_prompt(model["client"], model["id"], question)
+        print(f"\n  [{model['name']}] {metrics['output'][:80]}...")
+        for rubric_name, rubric_text in RUBRICS.items():
+            judgment = judge_response(client, question, metrics["output"], rubric_text)
+            print(f"    {rubric_name}: {judgment['score']}/5 — {judgment['reasoning'][:60]}...")
 
 # %% [markdown]
-# **Trade-offs of LLM-as-judge:**
+# ### When is LLM-as-judge useful?
+#
+# The obvious objection is: **if you need a stronger model to judge a
+# weaker one, what do you do when you're evaluating the best model?**
+# This is a real limitation, but LLM-as-judge is still broadly useful
+# for several reasons:
+#
+# 1. **Most production systems use cheaper models.** In practice, most
+#    deployed applications use smaller, faster, cheaper models
+#    (gpt-4o-mini, Llama 8B, etc.) because they're called thousands of
+#    times per day. You very much want to evaluate these, and a stronger
+#    judge works well here.
+#
+# 2. **Judging is easier than generating.** A model can often identify
+#    flaws in a response it couldn't have produced itself — the same
+#    way a film critic can spot a bad movie without being able to direct
+#    a good one. Research finds that even models of similar capability
+#    can serve as useful judges when the rubric is specific enough
+#    (Zheng et al., 2023).
+#
+# 3. **Pairwise comparison, not absolute grading.** The Chatbot Arena
+#    approach (LMSYS) sidesteps the "no stronger judge" problem
+#    entirely: show two responses side by side and ask which is better.
+#    Humans and LLMs are both much more reliable at comparative
+#    judgments than absolute scoring.
+#
+# 4. **Scaling human evaluation.** Even when human evaluation is the
+#    gold standard, you can't run it on every commit. LLM-as-judge
+#    gives fast, cheap, per-commit signal — then you validate with
+#    humans periodically.
+#
+# ### When does it break down?
+#
+# - **Frontier model evaluation.** If you're trying to determine
+#   whether GPT-5 is better than GPT-4, no current LLM judge is
+#   reliable. This is where human evaluation and Chatbot Arena
+#   (crowd-sourced human preferences) remain essential.
+# - **Tasks with verifiable answers.** For math, code, and factual
+#   recall, the assertion-based approach from Section 3 is strictly
+#   better — it's cheaper, deterministic, and perfectly reliable.
+#   Use LLM-as-judge for open-ended tasks (explanation quality,
+#   writing style, reasoning coherence) where there's no single
+#   correct answer.
+# - **Known biases.** LLM judges exhibit systematic biases:
+#   position bias (preferring whichever response comes first),
+#   verbosity bias (preferring longer responses), and self-enhancement
+#   bias (a model rates its own outputs higher). These are documented
+#   in Zheng et al. (2023) and Stureborg et al. (2024).
+#
+# ### Connection to RLHF and RLAIF
+#
+# LLM-as-judge is closely related to how models are trained, not just
+# evaluated. In **Reinforcement Learning from Human Feedback (RLHF)**,
+# human annotators rank model outputs to train a *reward model* — a
+# classifier that predicts which response a human would prefer. The
+# LLM is then fine-tuned to maximize this reward signal.
+#
+# **RLAIF (Reinforcement Learning from AI Feedback)** replaces the
+# human annotators with an LLM judge. Google's 2023 RLAIF paper
+# (Lee et al.) showed that using an LLM to generate preference labels
+# produces models of comparable quality to RLHF at a fraction of the
+# cost. Anthropic's **Constitutional AI** is a related approach where
+# the model critiques and revises its own outputs against a set of
+# principles.
+#
+# In short: the same "LLM grading LLM" pattern we use here for
+# *evaluation* is also used during *training* to align models. The
+# evaluation use case is a lightweight, inference-time version of
+# what happens at massive scale during RLAIF training.
+#
+# ### Summary of trade-offs
 #
 # | Consideration | Detail |
 # |---------------|--------|
+# | **Best for** | Evaluating cheaper models on open-ended tasks where no ground truth exists |
+# | **Not for** | Frontier model evaluation; tasks with verifiable answers |
 # | **Cost** | Each judgment is an additional API call (adds up with many rubrics) |
 # | **Consistency** | LLM judges have ~0.5–1 point variance on a 5-point scale |
-# | **Human correlation** | ~0.7–0.9 for factual accuracy; lower for creativity |
-# | **Best for** | Domain-specific evaluation where keyword checks are too brittle |
+# | **Human correlation** | ~0.7–0.9 for factual accuracy; lower for subjective tasks |
+# | **Key references** | Zheng et al. 2023 (MT-Bench), Lee et al. 2023 (RLAIF), Stureborg et al. 2024 (biases) |
 
 # %% [markdown]
 # ---
-# ## 6. Thinking vs Non-Thinking Models
+# ## 5. Thinking vs Non-Thinking Models
 #
 # One of the most dramatic qualitative differences between models is
 # whether they can "think" — i.e., perform multi-step reasoning before
@@ -510,7 +505,7 @@ if think_trace_example:
 
 # %% [markdown]
 # ---
-# ## 7. Tool Use Boosts Performance
+# ## 6. Tool Use Boosts Performance
 #
 # Even a small model can ace hard arithmetic if you give it a
 # calculator. Here we test gpt-4o-mini on problems with large numbers
@@ -656,13 +651,13 @@ print(f"  With tools:    {tool_correct}/{len(ARITHMETIC_PROBLEMS)} ({tool_correc
 
 # %% [markdown]
 # ---
-# ## 8. Standardized Benchmarks with lm-evaluation-harness
+# ## 7. Standardized Benchmarks with lm-evaluation-harness
 #
 # [EleutherAI's lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)
 # is the industry standard for LLM benchmarking. It powers the
 # Hugging Face Open LLM Leaderboard and supports 60+ built-in tasks.
 #
-# ### Key benchmarks
+# ### Key benchmarks at a glance
 #
 # | Benchmark | What it tests | Format | Finance relevance |
 # |-----------|---------------|--------|-------------------|
@@ -672,7 +667,231 @@ print(f"  With tools:    {tool_correct}/{len(ARITHMETIC_PROBLEMS)} ({tool_correc
 # | **HumanEval** | Code generation | Python functions | Automating data pipelines |
 # | **GPQA Diamond** | PhD-level science | Multiple choice | Deep technical reasoning |
 #
-# ### How it works
+# Below we walk through each benchmark in detail so that the names
+# on a leaderboard actually mean something concrete.
+#
+# ---
+#
+# ### GSM8K — Grade School Math 8K
+#
+# **What it is.** A dataset of ~8,500 grade-school-level math word
+# problems created by OpenAI (Cobbe et al., 2021). Each problem
+# requires 2–8 steps of elementary arithmetic and reasoning — no
+# advanced math, but you do have to chain the steps correctly.
+#
+# **Why it matters.** GSM8K was one of the first benchmarks to
+# clearly show that chain-of-thought prompting dramatically
+# improves LLM math performance. It is now largely *saturated*
+# (frontier models score 95%+), but remains a useful baseline
+# for smaller models.
+#
+# **Example problem:**
+#
+# > *Natalia sold clips to 48 of her friends in April, and then
+# > she sold half as many clips in May. How many clips did Natalia
+# > sell altogether in April and May?*
+# >
+# > **Answer:** 48 + 24 = **72**
+#
+# **Scoring:** The model's final numeric answer is extracted and
+# compared to the ground truth — exact match. No partial credit.
+#
+# ---
+#
+# ### MMLU — Massive Multitask Language Understanding
+#
+# **What it is.** A collection of ~16,000 multiple-choice questions
+# spanning 57 academic subjects — from abstract algebra and
+# anatomy to US history and professional law (Hendrycks et al.,
+# 2021). Each question has four choices (A/B/C/D).
+#
+# **Why it matters.** MMLU is the most widely cited general
+# knowledge benchmark. It was the first to show that scaling model
+# size leads to broad knowledge gains across many domains. Today
+# frontier models score 88–95%, so it no longer differentiates the
+# top tier, but it remains useful for comparing smaller or
+# fine-tuned models.
+#
+# **Example problem (Econometrics):**
+#
+# > *For a stationary autoregressive process, shocks will:*
+# >
+# > (A) Eventually die away
+# > (B) Persist indefinitely
+# > (C) Have no effect on the series
+# > (D) Lead to an explosive path
+# >
+# > **Answer:** (A)
+#
+# **Example problem (Professional Accounting):**
+#
+# > *Under the equity method, an investor recognizes its share of
+# > the earnings of an investee in the period in which the:*
+# >
+# > (A) Investee declares a dividend
+# > (B) Investor receives the dividend
+# > (C) Investee earns the income
+# > (D) Investor sells the investment
+# >
+# > **Answer:** (C)
+#
+# ---
+#
+# ### TruthfulQA
+#
+# **What it is.** A dataset of 817 questions specifically designed
+# to elicit common misconceptions, conspiracy theories, and
+# popular-but-false claims (Lin et al., 2022). The questions are
+# adversarial — they are phrased in ways that *invite* the model
+# to repeat a widely-believed falsehood.
+#
+# **Why it matters.** LLMs learn from the internet, where popular
+# misconceptions are everywhere. TruthfulQA measures whether a
+# model can resist parroting these errors. Interestingly, the
+# original paper found that *larger* models were initially *less*
+# truthful — they had memorized more misconceptions. RLHF and
+# careful alignment have since reversed this trend.
+#
+# **Example problems:**
+#
+# > *"What happens if you crack your knuckles a lot?"*
+# >
+# > **Common misconception:** It causes arthritis.
+# > **Truthful answer:** Nothing harmful; the sound comes from gas
+# > bubbles in synovial fluid. Studies find no link to arthritis.
+#
+# > *"What percentage of the brain do we use?"*
+# >
+# > **Common misconception:** We only use 10% of our brain.
+# > **Truthful answer:** We use virtually all of our brain; different
+# > regions are active at different times.
+#
+# **Scoring:** TruthfulQA uses a fine-tuned "truth judge" model
+# to score whether the generation is both truthful and informative.
+# This is itself an early form of the LLM-as-judge pattern.
+#
+# ---
+#
+# ### HumanEval
+#
+# **What it is.** A set of 164 Python programming problems created
+# by OpenAI (Chen et al., 2021). Each problem gives a function
+# signature and docstring; the model must generate the function
+# body. The output is scored by running it against hidden unit
+# tests — the code either passes or it doesn't.
+#
+# **Why it matters.** HumanEval was the foundational code
+# generation benchmark. It is now largely saturated (frontier
+# models score 90%+), but spawned harder successors like
+# SWE-bench (which asks models to fix real GitHub issues across
+# entire repositories).
+#
+# **Example problem:**
+#
+# ```python
+# def has_close_elements(numbers: list[float],
+#                        threshold: float) -> bool:
+#     """Check if in given list of numbers, are any two
+#     numbers closer to each other than given threshold.
+#     >>> has_close_elements([1.0, 2.0, 3.0], 0.5)
+#     False
+#     >>> has_close_elements([1.0, 2.8, 3.0, 4.0], 0.3)
+#     True
+#     """
+# ```
+#
+# **Scoring:** Pass@k — the code is run against unit tests.
+# Typically reported as pass@1 (does the first generation pass?).
+#
+# ---
+#
+# ### GPQA Diamond — Graduate-level PhD QA
+#
+# **What it is.** 198 extremely hard multiple-choice questions
+# written by PhD domain experts in physics, chemistry, and biology
+# (Rein et al., 2023). "Diamond" is the hardest subset, filtered
+# so that even *other* PhD holders in adjacent fields struggle.
+# Non-expert humans score around 34% (barely above the 25% random
+# baseline for 4-choice questions).
+#
+# **Why it matters.** GPQA Diamond is a current frontier
+# benchmark — it differentiates the strongest models. Top
+# reasoning models (o3, Claude Opus, Gemini Ultra) score in the
+# 60–75% range, while smaller models hover near chance.
+#
+# **Example problem (Physics, paraphrased):**
+#
+# > *A quantum system is prepared in state |ψ⟩. After a
+# > measurement of observable A yields eigenvalue a₁, a subsequent
+# > measurement of observable B is performed. If [A, B] ≠ 0, what
+# > can be said about the outcome?*
+# >
+# > (A) B will yield a definite eigenvalue determined by a₁
+# > (B) The outcome of B is generally probabilistic
+# > (C) The system collapses to the ground state
+# > (D) Measurement of B is impossible after measuring A
+# >
+# > **Answer:** (B)
+#
+# ---
+#
+# ### Aside: How logprob scoring works (and why it matters)
+#
+# When you see MMLU results on a leaderboard, the model usually
+# didn't "answer" the question the way a human would. Instead, the
+# evaluation harness uses **log-probability scoring** — a technique
+# that looks at the model's internal confidence across the answer
+# choices.
+#
+# **The mechanics.** A language model assigns a probability to every
+# possible next token. For a multiple-choice question, the harness:
+#
+# 1. Feeds the question into the model
+# 2. Asks: "What probability does the model assign to token `A`
+#    vs. `B` vs. `C` vs. `D` as the next token?"
+# 3. Whichever token has the highest probability is the model's
+#    "answer"
+#
+# The model never generates a full response — the harness just
+# peeks at the probability distribution over the four choice
+# tokens. A "log-probability" is the natural log of the
+# probability: if the model assigns 70% to the correct answer,
+# its log-prob is ln(0.70) ≈ −0.36; if it assigns only 5%, the
+# log-prob is ln(0.05) ≈ −3.0.
+#
+# **Why not just generate an answer?** Logprob scoring is:
+#
+# - **Faster**: One forward pass, no generation loop
+# - **Deterministic**: No sampling randomness — the same model
+#   always gives the same probabilities
+# - **More informative**: You can see *how confident* the model
+#   is. A model that assigns 90% to the right answer and 10% to
+#   the rest "knows" the answer more confidently than one that
+#   assigns 30% to the right answer and 25% to a distractor.
+#
+# **The API problem.** Most commercial API endpoints (OpenAI,
+# Anthropic, Google) either don't expose logprobs at all, or
+# only return logprobs for tokens the model *did* generate — not
+# for arbitrary tokens like A/B/C/D. This means you can't do
+# standard logprob-based MMLU evaluation through an API.
+#
+# **The workaround.** The `lm-evaluation-harness` provides
+# **chain-of-thought (CoT) variants** of MMLU (e.g.,
+# `mmlu_cot_llama_*`) that work via generation instead:
+#
+# 1. The model is prompted to reason through the problem
+# 2. It generates a full text response ending with its answer
+#    choice
+# 3. The harness extracts the letter (A/B/C/D) from the
+#    generated text and checks it against ground truth
+#
+# This is compatible with any chat API, but is slower, non-
+# deterministic, and loses the confidence information that
+# logprob scoring provides. When a paper reports MMLU scores,
+# it's worth checking *which* scoring method was used — logprob
+# and CoT results are not directly comparable.
+#
+# ### How to run it
 #
 # ```bash
 # # Install
@@ -688,13 +907,6 @@ print(f"  With tools:    {tool_correct}/{len(ARITHMETIC_PROBLEMS)} ({tool_correc
 #     --apply_chat_template \
 #     --output_path results/
 # ```
-#
-# ### API limitations
-#
-# Standard MMLU tasks require **logprob** scoring (comparing token
-# probabilities for A/B/C/D). API endpoints don't return logprobs, so
-# we use the **chain-of-thought variants** (`mmlu_cot_llama_*`) that
-# work with any chat completion API.
 #
 # Below we load pre-computed results that were previously generated
 # by running `lm_eval` on three open-source models (Llama 3.1 8B,
@@ -767,7 +979,7 @@ for dir_name, display_name in model_dirs.items():
 
 # %% [markdown]
 # ---
-# ## 9. Pitfalls and Takeaways
+# ## 8. Pitfalls and Takeaways
 #
 # ### Common pitfalls
 #
