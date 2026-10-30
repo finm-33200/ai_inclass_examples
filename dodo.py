@@ -140,7 +140,7 @@ def task_build_chartbook_site():
 
     return {
         "actions": [
-            "chartbook build -f",
+            "chartbook docs generate -f",
         ],
         "targets": sphinx_targets,
         "file_dep": file_dep,

@@ -1,35 +1,22 @@
-[config]
-type = "pipeline"
-chartbook_format_version = "0.0.2"
-
-[site]
-title = "In Class Examples for FINM 33200: Generative and Agentic AI for Finance"
-author = "Jeremy Bejarano"
+[project]
+name = "ai_inclass_examples"
+description = "In-class examples for FINM 33200: Generative and Agentic AI for Finance"
+maintainer = "Jeremy Bejarano"
 copyright = "2025"
-logo_path = ""
-favicon_path = ""
+os_compatibility = [
+    "Windows",
+    "Linux",
+    "MacOS",
+]
+requires_chartbook = ">=0.3.0"
 
-[pipeline]
-id = "FINM33200"
-pipeline_name = "ai_inclass_examples"
-pipeline_description = "In-class examples for FINM 33200: Generative and Agentic AI for Finance"
-lead_pipeline_developer = "Jeremy Bejarano"
-contributors = []
-software_modules_command = ""
-runs_on_grid_or_windows_or_other = "Windows/Linux/MacOS"
-git_repo_URL = ""
-README_file_path = "./README.md"
-
-[notebooks]
+[scripts]
+build = "doit"
 
 [notebooks.openai_api_overview]
-notebook_description = "Overview of the OpenAI-compatible API: basic completions, model comparison, streaming, structured outputs, function calling, and web search."
-notebook_path = "_output/openai_api_overview.ipynb"
+description = "Overview of the OpenAI-compatible API: basic completions, model comparison, streaming, structured outputs, function calling, and web search."
+path = "_output/openai_api_overview.ipynb"
 
 [notebooks.benchmarking_llms]
-notebook_description = "45-minute lecture on benchmarking LLMs: latency/cost, assertion-based eval, LLM-as-judge, thinking vs non-thinking models, tool-use performance gains, standardized benchmarks, and common pitfalls."
-notebook_path = "_output/benchmarking_llms.ipynb"
-
-[dataframes]
-
-[charts]
+description = "45-minute lecture on benchmarking LLMs: latency/cost, assertion-based eval, LLM-as-judge, thinking vs non-thinking models, tool-use performance gains, standardized benchmarks, and common pitfalls."
+path = "_output/benchmarking_llms.ipynb"
