@@ -15,7 +15,7 @@ pandas-market-calendars==4.4.1
 pandas==2.2.3
 paramiko==3.5.0
 plotly==5.24.1
-polars==1.9.0
+polars>=1.33,<2
 pyarrow
 pytest==8.3.3
 python-decouple==3.8
@@ -41,4 +41,4 @@ notebook
 
 
 # Documentation/notebook rendering dependencies
-chartbook[all]>=0.0.3
+chartbook>=0.4.0

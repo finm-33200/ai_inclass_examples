@@ -219,7 +219,7 @@ def task_compile_sphinx_docs():
 
     return {
         "actions": [
-            "chartbook build -f",
+            "chartbook docs build -f",
         ],  # Use docs as build destination
         "targets": sphinx_targets,
         "file_dep": file_dep,
